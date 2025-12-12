@@ -1,0 +1,30 @@
+Model ID,Manufacturer,performance,metadata,Weight (g),Price (USD),Length,Width,Height,minInoutVolt,MaxInputVolt,MinOutputV,MaxOutputV,Max Current (A),Power (W),Product Link
+CC BEC 2.0,Castle Creations,,,21,46.95,43,14,8,6,45,4.75,12,14,168,https://www.unmannedsystemssource.com/shop/speed-controllers/cc-bec-2-0-waterproofvoltage-regulator/
+CC BEC 2.0 WP,Castle Creations,,,28,44.95,35,18,19,6,45,4.75,12,15,180,https://www.unmannedsystemssource.com/shop/speed-controllers/cc-bec-2-0-waterproofvoltage-regulator/
+UBEC-10A HV,HobbyWing,,,30,36.99,48,25,15,6,38,5,8,10,84,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+UBEC-8A,HobbyWing,,,22,18.49,40,20,10,6,26,5,7,8,59.2,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+UBEC-5A Air,HobbyWing,,,15,13.99,32,18,8,6,20,5,6,5,30,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+25A UBEC,HobbyWing,,,85,73.99,65,25,20,14,38,5,12,25,300,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 8A/12A,RMRC,,,18,16.39,30,22,10,6,20,5,7.4,12,88.8,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RLECS 5V 3A,RLECS,,,11,8.99,25,20,5,6,17,5,5,3,15,https://www.amazon.com/RLECSExternal-Regulator-Receiver-Airplane/dp/B07YYV8GGF
+Matek BEC12S-Pro,Matek Systems,,,25,18.99,40,20,10,9,55,5,12,5,60,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Micro BEC 6-60V,Matek Systems,,,8,8.49,22,17,4,6,60,5,12,3,36,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Pololu D24V6F12,Pololu,,,3,4.99,17,11,5,4,40,12,12,0.6,7.2,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+CCBEC 10A,Castle Creations,,,40,26.95,45,25,12,6,20,5,5.1,10,51,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 5A (Switched),RMRC,,,12,11.39,25,20,8,6,20,5,6,5,30,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 3A (12V),RMRC,,,10,9.99,22,18,7,6,20,12,12,3,36,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Matek Servo PDB,Matek Systems,,,35,19.99,50,30,15,9,55,5,8,12,96,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+HobbyWing UBEC-3A,HobbyWing,,,10,8.99,28,16,6,6,20,5,6,3,18,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC Step-Up 12V,RMRC,,,5,3.29,15,10,5,6,15,12,12,2,24,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Mauch PL 4-14S,Mauch,,,45,90.63,60,40,20,14,45,5,5.3,15,79.5,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Mauch MH021,Mauch,,,38,73.99,55,35,18,14,45,5,5.3,12,63.6,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Matek CANPDB,Matek Systems,,,20,15.99,35,25,10,6,26,5,12,4,48,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+HobbyWing UBEC-10A V2,HobbyWing,,,28,24.99,45,25,12,6,37,5,8,10,84,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC Mini PDB,RMRC,,,15,7.99,30,20,5,6,20,5,12,3,36,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 6A UBEC,RMRC,,,16,13.89,28,22,8,6,20,5,6,6,36,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Micro BEC 6-30V (3pk),Matek Systems,,,24,10.99,22,17,4,6,30,5,9,3,27,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Matek PM20S-2,Matek Systems,,,45,59.99,50,35,15,14,70,5,12,8,96,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Matek PM12S-3,Matek Systems,,,40,49.99,48,30,12,11,38,5,9,6,54,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 5A (Switched w/Switch),RMRC,,,14,12.69,26,20,8,6,20,5,6,5,30,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+RMRC 3A (5-6V),RMRC,,,9,10.09,22,18,7,6,20,5,6,3,18,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators
+Mauch Power-Cube V3,Mauch,,,120,287.3,80,50,25,14,45,5,24,20,480,https://www.readymaderc.com/collections/electronics-and-wiring/power/voltage-regulators

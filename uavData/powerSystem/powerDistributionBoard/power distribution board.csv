@@ -1,0 +1,26 @@
+Component Name,ModelID,performance,metadata,MinVoltage,MaxVoltage,Output Voltage,Output Voltage,Output Voltage,Max Current,Dimensions (mm),Weight (g),Price (USD),Link/Source
+,SmartAP-PDB-65,,,10,60,5,12,,400A,65x65x14,16,$89-120,sky-drones.com
+,MES-PDB-UAV,,,7,60,5,12,,160A,70x70x8,254,$75-95,robotshop.com
+,MFE-PDB-VTOL,,,,50,5,12,24,300A,80x80x12,35,$65-85,uavmodel.com
+,3DR-PM-v2.1,,,10,60,5,,,90A,55x35x10,18,$45-60,Various retailers
+,CUAV-P9-PM,,,7,60,5,,,120A,50x40x8,15,$55-70,cuav.net
+,FCHUB-VTX,,,7,26,5,9,12,184A,36x36x8,,$35-45,mateksys.com
+,TBS-PC-V2,,,7,26,5,12,,140A,30.5x30.5x6,,$25-35,team-blacksheep.com
+,IRC-Fusion-G2,,,7,26,5,12,,100A,36x36x7,,$40-50,immersionrc.com
+,HB-PDB-XT60,,,7,26,5,12,,140A,36x50x6,12,$20-30,holybro.com
+,SB-F7-PDB,,,7,26,5,10,,130A,30.5x30.5x8,7,$55-70,speedybee.com
+,PDB-XT60-V2,,,9,18,5,12,,80A,30.5x30.5x5,,$5.65-15.90,speedyfpv.com
+,Q250-PDB-BEC,,,7,18,5,,,100A,36x36x4,4,$1.99-5,Multiple retailers
+,EB-PDB-XT60,,,9,18,5,12,,60A,30x30x5,6,$8-15,flipkart.com
+,RC-PDB-UBEC,,,7,22,5,12,,100A,45x45x6,8,4.99,speedyfpv.com
+,MQ-PDB-XT30,,,7,15,5,,,40A,25x25x3,3,5.99,hobbywireless.com
+,LC-PDB-12S-480A,,,15,50,5,12,24,480A,100x100x15,65,$120-180,droneassemble.com
+,HL-PDB-8M,,,15,60,5,12,24,600A,120x120x20,85,$150-220,Various suppliers
+,PS-PDB-VTOL,,,18,50,5,12,28,400A,90x90x18,45,$95-140,Multiple
+,HV-PDB-14S,,,20,60,5,12,24,300A,85x85x16,55,$110-160,Specialized retailers
+,RPH-PDB-DUAL,,,12,50,5,12,,200A,75x75x25,75,$180-250,Professional suppliers
+,MPB-SW-5V12V,,,7,18,5,12,,30A,30.5x30.5x4,4,2.99,speedyfpv.com
+,SXT-PDB-6PIN,,,10,22,5,12,,80A,40x35x6,7,5.99,speedyfpv.com
+,HC-UBEC-PDB,,,7,22,5,10,20,120A,45x45x8,12,7.99,speedyfpv.com
+,F3-FC-PDB-35mm,,,7,18,5,,,60A,35x35x6,8,$25-40,hobbywireless.com
+,5IN1-HUB-PDB,,,7,22,5,12,,100A,50x40x10,15,$30-45,hobbywireless.com

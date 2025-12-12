@@ -1,0 +1,26 @@
+ModelID,Manufacturer,performance,metadata,Displacement (cc),Power,Speed (RPM),Weight,Fuel Type,Price,Link,Power_Value,Power_Unit
+Admiral 125 cc,Admiral,,,125,20 kW,-,2682,87-93 octane,Not Available,https://www.motionrc.com/,20.0,kW
+Currawong Cortex-50 Hybrid,Currawong,,,50,2.1 kW,7500,4700,Petrol,Not Available,https://www.currawongeng.com/,2.1,kW
+Desert Aircraft DA-200,Desert Aircraft,,,200,19 hp,8500,10.95 lbs,Petrol,Not Available,https://www.desertaircraft.com/,19.0,HP
+DLE Engines DLE222,DLE Engines,,,222,21.5 HP,7500,5710,Petrol,Not Available,https://www.dlengine.com/en/rcengine/,21.5,HP
+Fly Dragon Drone Tech B2H70,Fly Dragon Drone Tech,,,70,6 HP,8500,2880,RP3 Jet fuel,Not Available,http://www.dronefromchina.com/,6.0,HP
+Flygas GAS 252,Flygas,,,703,70.7 HP (52 kW),6500,57000,Normal green,Not Available,https://www.flygas.info/,52.0,kW
+Flygas Flygas-912-Rotax,Flygas,,,1352,142 HP (104.4 kW),5800,72000,Gasoline,Not Available,https://www.flygas.info/,104.4,kW
+Great Power Engine GP178,Great Power Engine,,,178,21.5 HP,9000,3550,92 unleaded gasoline,Not Available,https://www.gpengine.world/,21.5,HP
+Hirth Engines 4202HF,Hirth Engines,,,183,11 kW (15 HP),6500,11500,Kerosene based fuels,Not Available,https://hirthengines.com/,11.0,kW
+NGH GTF550,NGH,,,550,45 HP,7000,12000,95 # unleaded petrol,Not Available,http://www.nghengine.com/,45.0,HP
+Northwest UAV NW-230,Northwest UAV,,,230,15 - 18 HP,7200,10000,Non-ethanol 93-100 octane gasoline,Not Available,https://www.nwuav.com/index.html,18.0,HP
+Pegasus Aeronautics GE70 Hybrid,Pegasus Aeronautics,,,70,4 kW,-,3500,Gasoline,Not Available,https://www.pegasusaero.ca/,4.0,kW
+RCV Engines DF140LC,RCV Engines,,,140,8.61 kW (11.5 HP),10000,6300,Kerosene based fuels /  gasoline,Not Available,https://rcvengines.com/,8.61,kW
+ROTOmotor ROTO 170 FS,ROTOmotor,,,170,9.8 kW,-,5420,Gasoline,Not Available,https://www.rotomotor.cz/,9.8,kW
+Sky Power International SP-275 TS ROS,Sky Power International,,,275,21.7 HP (16.0 kW),1500-10000,17.29 lbs,Gasoline,Not Available,https://skypower.online/home-2/engines-overview/,16.0,kW
+Stinger Engines Stinger Pro 185 cc Twin,Stinger Engines,,,185,22 HP,8000,3680,Gasoline,Not Available,https://www.stingerengine.cn/,22.0,HP
+Suter Industries TOA 288,Suter Industries,,,288,17.6 kW (24 HP),6500,9200,Gasoline min. 95 RON or AVGAS,Not Available,https://www.suter-aviation.ch/,17.6,kW
+RCV Engines DF70,RCV Engines,,,70,4.0 kW (5.4 hp),2000-10000,3000, gasoline,Not Available,https://rcvengines.com/rcv-df70/,4.0,kW
+RCV Engines DF35,RCV Engines,,,35,2.2 kW (3.0 hp),2000-10000,2000, gasoline,Not Available,https://rcvengines.com/rcv-df35/,2.2,kW
+DLE Engines DLE60,DLE Engines,,,60,-,-,-,-,Not Available,https://www.dlengine.com/en/rcengine/,,
+DLE Engines DLE120,DLE Engines,,,120,-,-,-,-,Not Available,https://www.dlengine.com/en/rcengine/,,
+DLA Engines DLA180,DLA Engines,,,180,-,-,-,-,Not Available,https://www.airmobi.com/product-category/uav-engines/,,
+DLA Engines DLA64,DLA Engines,,,64,-,-,-,-,Not Available,https://www.airmobi.com/product-category/uav-engines/,,
+Orbital Corporation 50cc Heavy Fuel Engine,Orbital Corporation,,,50,3.7 hp (2.8 kW),6500,3 kg, gasoline,Not Available,https://www.unmannedsystemstechnology.com/company/orbital-corporation/,2.8,kW
+Sky Power International SP-55 FI TS ROS,Sky Power International,,,55,-,-,-,-,Not Available,https://skypower.online/home-2/engines-overview/,,

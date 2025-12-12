@@ -1,0 +1,20 @@
+{
+  "name": "Optimized EDF UAV",
+  "mtow_kg": 13.9284,
+  "payload_weight_kg": 10.4,
+  "cruise_speed_kmh": 48.16033460865938,
+  "edf": {
+    "name": "Electric-Turbax 120mm",
+    "power_w": 5200,
+    "thrust_n": 62.2722275,
+    "weight_kg": 0.52
+  },
+  "battery": {
+    "model": "N/A",
+    "quantity": 6,
+    "weight_kg": 1.218,
+    "capacity_ah": 37.2,
+    "voltage": 7.4,
+    "c_rating": 40
+  }
+}

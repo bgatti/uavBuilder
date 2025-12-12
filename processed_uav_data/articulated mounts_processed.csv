@@ -1,0 +1,21 @@
+ModelID,Manufacturer,System Type,Weight,Supported Platforms,Supported Cameras,performance,metadata,Min Voltage,Max Voltage,Connections,Gimbal Modes,Pan Min,Pan Max,Tilt Min,Tilt Max,Roll Min,Roll Max,Price (USD),Product Link
+Pixy LR S-Port,Gremsy,3-Axis,462,Sony ILX-LR1, Pixhawk/CubePilot,,,15,52,AUX/UART/HDMI,Lock/Follow/Mapping,320.0,320,-120,40,-45,45,2349,https://gremsy.com/pixy-lr-s-port-gimbal-store
+Pixy MR,Gremsy,3-Axis,520,Sony ILX-LR1, DJI M300/M350,,,15,52,HDMI/USB,Lock/Follow/Mapping,160.0,160,-45,135,-25,25,2999,https://gremsy.com/pixy-mr-gimbal
+Pixy LR,Gremsy,3-Axis,495,Sony ILX-LR1, Pixhawk/CubePilot/Skynode/M600,,,17,52,MicroUSB/USB-C/CAN/UART/SBus/HDMI,Lock/Follow/Mapping,320.0,320,-120,40,-40,40,1799,https://gremsy.com/pixy-lr-store
+G-Hadron,Gremsy,3-Axis,164,FLIR Hadron 640R, Pixhawk/CubePilot/Skynode,,,15,52,USB 2.0/UART/SBus,Lock/Follow/Mapping,175.0,175,-120,120,-40,40,969,https://gremsy.com/g-hadron-store
+Mio,Gremsy,3-Axis,250,Multiple cameras, Pixhawk/DJI FC,,,14,52,USB 2.0/CAN/UART/SBus/PPM/Bluetooth,Lock/Follow/Mapping/Inverted,325.0,325,-120,120,-40,40,1650,https://gremsy.com/mio-store
+Pixy S,Gremsy,3-Axis,560,Sony α7R IV, Pixhawk/CubePilot/Skynode,,,15,52,USB 2.0/UART/HDMI,Lock/Follow/Mapping,320.0,325,-120,40,-30,30,2389,https://gremsy.com/pixy-s-store
+Pixy WE,Gremsy,3-Axis,500,Wiris Enterprise, Pixhawk/DJI FC,,,14,52,MicroUSB/CAN/UART/PPM/SBus/Spektrum/Bluetooth/HDMI,Lock/Follow/Mapping/Inverted,330.0,330,-45,135,-45,45,2629,https://gremsy.com/pixy-we
+Pixy SM,Gremsy,3-Axis,570,Sony α7R IV, DJI M300 RTK,,,13,13,USB 2.0/UART,Lock/Follow/Mapping,160.0,160,-45,135,-25,25,2999,https://gremsy.com/pixy-sm
+Pixy WP,Gremsy,3-Axis,446,Wiris Pro/Agro R, Pixhawk/DJI A3/M300 RTK,,,14,52,USB 2.0/CAN/UART/SBus/Spektrum/PPM/Bluetooth,Lock/Follow/Mapping/Inverted,330.0,330,-45,135,-45,45,2349,https://gremsy.com/pixy-wp-store
+Pixy U,Gremsy,3-Axis,465,Multiple cameras, Pixhawk/DJI FC,,,14,52,USB 2.0/CAN/UART/SBus/Spektrum/PPM/Bluetooth,Lock/Follow/Mapping/Inverted,330.0,330,-45,135,-45,45,1579,https://gremsy.com/pixy-u-store
+S1,Gremsy,3-Axis,750,FLIR Duo Pro R, Pixhawk/DJI FC,,,14,52,HDMI/SMA/UART/SBus,Lock/Follow/Mapping,330.0,330,-45,135,-45,45,1700,https://uavsystemsinternational.com/products/gremsy-s1-gimbal
+T3V3,Gremsy,3-Axis,1100,Multiple cameras, Pixhawk/DJI FC,,,14,52,USB 2.0/CAN/UART/SBus,Lock/Follow/Mapping,330.0,330,-45,135,-45,45,2349,https://gadgetsdeal.in/shop/gimbal/gremsy-t3v3-gimbal/
+T7,Gremsy,3-Axis,1350,Heavy cameras, Pixhawk/DJI FC,,,14,52,USB 2.0/CAN/UART/SBus,Lock/Follow/Mapping,330.0,330,-45,135,-45,45,2629,https://ardupilot.org/copter/docs/common-gremsy-pixyu-gimbal.html
+VIO G1,Gremsy,3-Axis,750,4K zoom/640x512 thermal, Pixhawk/DJI FC,,,14,52,HDMI/Ethernet,Lock/Follow/Mapping,330.0,330,-45,135,-45,45,9499,https://www.dronenerds.com/collections/gimbals-gremsy-gimbals
+VIO F1,Gremsy,3-Axis,750,4K zoom/640x512 thermal, Pixhawk/DJI FC,,,14,52,HDMI/Ethernet,Lock/Follow/Mapping,330.0,330,-45,135,-45,45,12499,https://www.dronenerds.com/collections/gimbals-gremsy-gimbals
+Infinity MR-S2,HD Air Studio,3-Axis,800,DJI M300 RTK,Not Applicable,,,14,52,UART/SBus,Lock/Follow/Mapping,360.0,360,-120,120,-45,45,1884,https://www.unmannedsystemstechnology.com/company/hd-air-studio/infinity-mr-s2/
+Infinity MR-Pro,HD Air Studio,3-Axis,1300,Mirrorless cameras, Pixhawk,,,14,52,UART/SBus,Lock/Follow/Mapping,360.0,360,-120,120,-45,45,1559,https://www.unmannedsystemstechnology.com/company/hd-air-studio/infinity-mr-pro/
+CSM 110,SOMAG,3-Axis,7000,DSLR cameras, Pixhawk,,,24,28,CAN/Ethernet,Stabilization,15.2,15,-15,15,-10,10,500,https://www.unmannedsystemstechnology.com/2021/05/gyro-stabilization-mounts-for-autonomous-platforms/
+SSM 270,SOMAG,3-Axis,13500,Large sensors, Various UAVs,,,24,28,CAN/Ethernet,Stabilization,15.2,15,-15,15,-10,10,500,https://www.unmannedsystemstechnology.com/2021/05/gyro-stabilization-mounts-for-autonomous-platforms/
+SSM 350,SOMAG,3-Axis,26000,Heavy sensors, Various UAVs,,,24,28,CAN/Ethernet,Stabilization,15.2,15,-15,15,-10,10,500,https://www.unmannedsystemstechnology.com/2021/05/gyro-stabilization-mounts-for-autonomous-platforms/

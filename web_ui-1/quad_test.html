@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-Copter Designer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- ======================================================================= -->
+    <!-- SECTION 1: HTML USER INTERFACE                                          -->
+    <!-- ======================================================================= -->
+    <div id="panels-container">
+        <div id="aero-panel">
+            <h3>Aero Analysis</h3>
+            <div>Disk Loading: <span>-</span></div>
+            <div>Propeller Diameter: <span>-</span></div>
+            <div>Tip Speed: <span>-</span></div>
+            <div>Parasitic Drag: <span id="parasitic-drag-display">-</span></div>
+            <canvas id="propeller-graph" class="graph-canvas"></canvas>
+        </div>
+        <div id="performance-panel">
+            <h3>Parameter Analysis</h3>
+            <div>Max Speed: <span id="max-speed-display">-</span></div>
+            <div>Cruise Speed: <span id="cruise-speed-display">-</span></div>
+            <canvas id="payload-range-graph" class="graph-canvas"></canvas>
+        </div>
+        <div id="powerplant-panel">
+            <h3>Powerplant Analysis</h3>
+            <div id="maxed-out-panel">
+                <h4>Maxed Out Parameters</h4>
+                <ul id="maxed-out-list"></ul>
+            </div>
+            <hr>
+            <div id="battery-section">
+                <h4>Battery</h4>
+                <div>Model: <span id="battery-model-display">-</span></div>
+                <div>Specifications:</div>
+                <ul id="battery-specs-list">
+                    <li>Weight: <span id="battery-weight-display">-</span></li>
+                    <li>C-Rating: <span id="battery-c-rating-display">-</span></li>
+                    <li>Capacity: <span id="battery-capacity-spec-display">-</span></li>
+                    <li>Voltage: <span id="battery-voltage-spec-display">-</span></li>
+                    <li>Duration (75%): <span id="duration-display">-</span></li>
+                </ul>
+            </div>
+            <hr>
+            <div id="motor-section">
+                <h4>Motor</h4>
+                <div>Model: <span id="motor-model-display">-</span></div>
+                <div>Specifications:</div>
+                <ul id="motor-specs-list">
+                    <li>Power: <span id="motor-power-display">-</span></li>
+                    <li>Diameter: <span id="motor-diameter-display">-</span></li>
+                    <li>kV: <span id="motor-kv-display">-</span></li>
+                    <li>RPM: <span id="motor-rpm-display">-</span></li>
+                    <li>Weight: <span id="motor-weight-display">-</span></li>
+                    <li>Static Thrust (per motor): <span id="static-thrust-display">-</span></li>
+                    <li>Total Thrust: <span id="total-thrust-display">-</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="ui-container">
+        <h2>UAV Conceptual Designer</h2>
+        <div class="slider-group">
+            <label>Number of Motors: <span id="num-motors-display">4</span></label>
+            <input type="range" id="num-motors-slider" min="3" max="8" value="4" step="1">
+        </div>
+        <div class="slider-group">
+            <label>Battery Weight % of MTOW: <span id="battery-weight-percent-display">30</span>%</label>
+            <input type="range" id="battery-weight-percent-slider" min="10" max="60" value="30" step="1">
+        </div>
+        <div class="slider-group">
+            <label>Disk Loading: <span id="disk-loading-display">50</span> N/m²</label>
+            <input type="range" id="disk-loading-slider" min="10" max="200" value="50" step="5">
+        </div>
+        <div class="slider-group">
+            <label>Propeller Pitch: <span id="prop-pitch-display">0.5</span></label>
+            <input type="range" id="prop-pitch-slider" min="0.3" max="1.2" value="0.5" step="0.05">
+        </div>
+        <div class="slider-group">
+            <label>Number of Blades: <span id="num-blades-display">2</span></label>
+            <input type="range" id="num-blades-slider" min="2" max="6" value="2" step="1">
+        </div>
+        <div class="slider-group">
+            <label>Payload: <span id="payload-display">500</span> g</label>
+            <input type="range" id="payload-slider" min="25" max="2500" value="500" step="25">
+        </div>
+        <div class="slider-group">
+            <label>Thrust/Weight Ratio: <span id="t-w-ratio-display">2.0</span></label>
+            <input type="range" id="t-w-ratio-slider" min="1.5" max="5.0" value="2.0" step="0.1">
+        </div>
+        <hr>
+        <div id="data-display">
+            <div>MTOW: <span id="mtow-display">0 kg</span></div>
+        </div>
+
+        <div id="weight-breakdown">
+            <div id="pie-chart-container">
+                <canvas id="pie-chart"></canvas>
+                <div id="legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SECTION 2: JAVASCRIPT LIBRARIES (Three.js)                              -->
+    <!-- ======================================================================= -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/parameter_analysis.js"></script>
+</body>
+</html>

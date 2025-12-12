@@ -1,0 +1,24 @@
+ModelID,Manufacturer,performance,metadata,Force_N,Stroke_mm,Voltage_V,Speed_mm_per_sec,IP_Rating,Weight_grams,Length mm,Width mm,Height mm,Control_Interface,Price_USD,Product_Link
+PQ12-P-30-12,Actuonix,,,18,20,12,28,IP54,15,1.6,0.6,0.6,PWM/Analog,89,https://www.actuonix.com/pq12
+PQ12-P-63-12,Actuonix,,,45,20,12,14,IP54,22,1.6,0.6,0.6,PWM/Analog,99,https://www.actuonix.com/pq12
+PQ12-R-30-12,Actuonix,,,18,20,12,28,IP54,20,1.6,0.6,0.6,RC Servo,79,https://www.actuonix.com/pq12
+L12-P-30-12,Actuonix,,,111,30,12,24,IP54,59,2.8,0.8,0.8,PWM/Analog,119,https://www.actuonix.com/l12
+L12-P-50-12,Actuonix,,,67,50,12,14,IP54,68,0.8,0.8,0.8,PWM/Analog,129,https://www.actuonix.com/l12
+L12-R-30-12,Actuonix,,,111,30,12,24,IP54,59,2.8,0.8,0.8,RC Servo,109,https://www.actuonix.com/l12
+L16-P-50-12,Actuonix,,,280,50,12,18,IP54,140,3.9,1.2,1.2,PWM/Analog,169,https://www.actuonix.com/l16
+L16-R-50-12,Actuonix,,,280,50,12,18,IP54,140,3.9,1.2,1.2,RC Servo,159,https://www.actuonix.com/l16
+P16-P-50-12,Actuonix,,,156,50,12,10,IP54,208,3.9,1.4,1.4,PWM/Analog/Feedback,199,https://www.actuonix.com/p16
+Mini Track 15,Firgelli Automations,,,156,381,12,12.7,IP54,952,17,1.5,1.5,DC Control,89.99,https://www.firgelliauto.com/
+Mini Track 5,Firgelli Automations,,,156,127,12,12.7,IP54,816,7,1.5,1.5,DC Control,69.99,https://www.firgelliauto.com/
+Mini Track 8,Firgelli Automations,,,67,203,12,10,IP54,862,10,1.2,1.2,DC Control,79.99,https://www.firgelliauto.com/
+Light Duty 1,Firgelli Automations,,,890,25,12,19,IP54,1588,4,2,2,DC Control,59.99,https://www.firgelliauto.com/
+Light Duty 9,Firgelli Automations,,,890,229,12,19,IP54,1905,12,2,2,DC Control,89.99,https://www.firgelliauto.com/
+Light Duty 12,Firgelli Automations,,,890,305,12,19,IP54,2177,15,2,2,DC Control,99.99,https://www.firgelliauto.com/
+Feedback 2,Firgelli Automations,,,890,51,12,12.7,IP54,1724,5,2,2,Feedback/DC Control,149.99,https://www.firgelliauto.com/
+Feedback 12,Firgelli Automations,,,156,305,12,10,IP54,1134,14,1.5,1.5,Feedback/DC Control,159.99,https://www.firgelliauto.com/
+Bullet Series 18,Firgelli Automations,,,5003,457,24,10.2,IP65,6895,20,2.5,2.5,DC Control,449.99,https://www.firgelliauto.com/
+PA-14 Mini,Progressive Automations,,,222,25,12,19,IP65,544,3.5,1.5,1.5,DC Control,109.99,https://www.progressiveautomations.com/
+PA-17 High Force,Progressive Automations,,,3781,25,12,6.4,IP65,3856,5,3,3,DC Control,299.99,https://www.progressiveautomations.com/
+PA-04-8-100,Progressive Automations,,,1780,203,12,25.4,IP66,2359,11,2.5,2.5,DC Control,189.99,https://www.progressiveautomations.com/
+Brushless 20mm,Hitec Commercial,,,111,38,12,30.5,IP65,363,3,1,1,PWM/Digital,149.99,https://www.hitecnology.com/
+MD Series Heavy,Hitec Commercial,,,445,102,12,20.3,IP65,1134,6,2,2,PWM Control,199.99,https://www.hitecnology.com/

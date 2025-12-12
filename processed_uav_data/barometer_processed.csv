@@ -1,0 +1,34 @@
+ModelID,performance,metadata,Weight_grams,Price_USD,Length_mm,Width_mm,Height_mm,Pressure_Range_hPa,Pressure_Accuracy_hPa,Temp_Accuracy_C,Supply_Voltage_V,Current_Consumption_uA,Interface,Sampling_Rate_Hz,Altitude_Accuracy_m_-_+,Resolution_Pa,Link,Country
+GY-BMP280,,,0.5,9.99,11.5,15.0,2.5,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://robu.in/product/bmp280-barometric-pressure-and-altitude-sensor-i2c-spi-module/,Germany
+Adafruit BMP280,,,1.2,9.95,20.0,23.0,,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://www.adafruit.com/product/2651,USA
+Grove BMP280,,,2.0,14.9,20.0,40.0,6.8,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://wiki.seeedstudio.com/Grove-Barometer_Sensor-BMP280/,China
+MS5611-01BA03,,,0.8,15.99,5.0,3.0,1.2,10-1200,1.5,0.8,3.3,1.25,I2C/SPI,4096,0.5,0.012,https://www.te.com/commerce/DocumentDelivery/DDEController,Switzerland
+GY-BMP180,,,0.6,7.99,15.5,11.0,3.4,300-1100,2.0,2.0,3.3,5.0,I2C,1,2.0,0.25,https://rakanelectronics.com/products/gy-68-gy-63-bmp180-bmp280-gy68,Germany
+BMP388,,,0.4,12.95,2.0,2.0,0.75,300-1250,0.5,0.5,3.3,3.4,I2C/SPI,200,0.66,0.016,https://www.adafruit.com/product/3966,Germany
+BMP390,,,0.4,14.95,2.0,2.0,0.75,300-1250,0.5,0.5,3.3,3.2,I2C/SPI,200,0.66,0.016,https://www.adafruit.com/product/4816,Germany
+Drotek MS5611,,,1.5,24.99,16.0,16.0,4.0,10-1200,1.5,0.8,3.3,1.25,I2C/SPI,4096,0.5,0.012,https://ardupilot.org/copter/docs/common-baro-external.html,France
+TinyTronics BMP280,,,0.5,6.95,11.5,15.0,2.5,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://www.tinytronics.nl/en/sensors/air/pressure/bmp280-digital-barometer-pressure-sensor-module,Netherlands
+OTRONIC BMP280,,,0.5,8.99,11.5,15.0,2.5,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://www.otronic.nl/en/digital-barometer-pressure-sensor-module-bmp280.html,Netherlands
+Vayuyaan BMP280,,,0.5,12.5,11.5,15.0,2.5,300-1100,1.0,1.0,3.3,2.7,I2C/SPI,1,1.0,0.16,https://vayuyaan.com/shop/sensor/bmp280-sensor-barometric-pressure-and-altitude-sensor-module/,India
+SPL06-001,,,0.3,8.99,2.5,2.5,1.0,300-1200,0.06,0.5,3.3,1.8,I2C/SPI,128,0.05,0.06,https://www.ebay.com/itm/184381798324,Germany
+DPS310,,,0.3,11.95,2.0,2.5,1.0,300-1200,0.005,0.5,3.3,1.7,I2C/SPI,128,0.06,0.06,https://www.adafruit.com/product/4494,Germany
+LPS22HB,,,0.2,8.5,2.0,2.0,1.0,260-1260,0.1,1.5,3.3,3.0,I2C/SPI,75,1.0,0.0024,https://www.st.com/en/mems-and-sensors/lps22hb.html,Italy
+LPS25H,,,0.3,9.95,2.5,2.5,1.0,260-1260,0.1,2.0,3.3,4.0,I2C/SPI,25,1.5,0.0024,https://www.st.com/en/mems-and-sensors/lps25h.html,Italy
+LPS33HW,,,0.2,10.5,2.5,2.5,1.0,260-1260,0.1,1.5,3.3,4.0,I2C/SPI,75,1.0,0.0024,https://www.st.com/en/mems-and-sensors/lps33hw.html,Italy
+MPL3115A2,,,1.0,14.95,5.0,3.0,1.0,20-110,0.05,1.0,3.3,40.0,I2C,1,0.3,1.5,https://www.adafruit.com/product/1893,USA
+BMP085,,,0.7,6.99,5.0,5.0,1.5,300-1100,4.0,2.0,3.3,5.0,I2C,1,3.0,0.25,https://learn.adafruit.com/bmp085/overview,Germany
+BMP183,,,0.8,19.95,3.2,5.1,1.2,300-1100,2.0,1.0,3.3,3.0,SPI,1,1.7,0.06,https://www.adafruit.com/product/1900,Germany
+ICP-10100,,,0.15,8.99,2.0,2.0,0.63,300-1100,0.4,1.0,3.3,1.3,I2C/SPI,330,0.4,0.01,https://www.cdiweb.com/products/detail/icp10100-tdk-invensense/613265/,Japan
+ICP-10111,,,0.15,9.5,2.0,2.0,0.63,300-1100,0.4,1.0,3.3,1.3,I2C/SPI,330,0.4,0.01,https://invensense.tdk.com/products/pressure/icp-10111/,Japan
+MS5637,,,0.5,12.99,3.0,5.0,1.0,0-9,2.0,1.0,3.3,0.9,I2C/SPI,8192,1.5,0.013,https://www.te.com/commerce/DocumentDelivery/DDEController,Switzerland
+MS5803-02BA,,,0.8,18.5,5.8,3.0,2.4,0-2000,1.5,0.8,3.3,1.25,I2C/SPI,4096,1.0,0.02,https://www.te.com/usa-en/product-CAT-BLPS0013.html,Switzerland
+MS5837-30BA,,,0.6,22.99,3.3,5.8,2.4,0-30000,20.0,2.0,3.3,1.4,I2C,8192,2.0,0.2,https://www.te.com/en/product-CAT-BLPS0017.html,Switzerland
+TCBP001TA,,,0.4,11.5,2.5,2.5,0.9,300-1250,1.0,1.5,3.3,2.8,I2C,100,1.0,0.1,https://www.tronicszone.com/product/tcbp001ta-pressure-sensor/,China
+MPC2520,,,0.3,9.99,2.5,2.0,0.8,300-1200,1.0,1.0,3.3,2.5,I2C/SPI,200,1.0,0.08,https://www.maiertek.com/products/mpc2520,Taiwan
+Honeywell ABP,,,1.2,28.5,19.0,199.0,7.5,0-1000,0.25,1.0,3.3,2.5,I2C/SPI,2000,0.2,0.025,https://sensing.honeywell.com/abp-series-basic-board-mount-pressure-sensors,USA
+Sensirion SDP3x,,,0.8,24.95,5.0,5.0,1.5,0-500,0.2,0.5,3.3,8.0,I2C,2000,0.15,0.01,https://www.sensirion.com/en/flow-sensors/differential-pressure-sensors/,Switzerland
+Bosch BMP581,,,0.2,15.99,3.0,2.0,0.65,300-1250,0.3,0.5,3.3,2.5,I2C/SPI,400,0.5,0.008,https://www.bosch-sensortec.com/products/environmental-sensors/pressure-sensors/bmp581/,Germany
+Infineon DPS368,,,0.25,13.5,3.0,2.5,0.9,300-1200,0.006,0.5,3.3,1.5,I2C/SPI,200,0.06,0.05,https://www.infineon.com/cms/en/product/sensor/pressure-sensors/pressure-sensors-for-iot/dps368/,Germany
+STM LPS28DFW,,,0.18,12.99,3.0,2.0,0.7,260-1260,0.5,1.5,3.3,4.5,I2C/SPI,200,0.8,0.008,https://www.st.com/en/mems-and-sensors/lps28dfw.html,Italy
+Omron 2SMPB-02E,,,0.35,16.5,2.5,2.5,0.9,300-1250,1.0,1.0,3.3,1.0,I2C,200,1.0,0.021,https://www.omron.com/global/en/products/sensing/mems-sensors/,Japan
+TE Connectivity M5600,,,0.7,19.99,8.2,2.5,2.0,300-1100,1.0,1.0,3.3,3.5,I2C/SPI,100,1.0,0.12,https://www.te.com/usa-en/products/sensors/pressure-sensors.html,Switzerland

@@ -1,0 +1,29 @@
+Model ID,performance,metadata,Manufacturer,Weight (g),Price (USD,Length,Width,Height,Processor,URL
+VECTOR-600,,,UAV Navigation,180,20000,74.5,68.0,45,Dual-core ARM Cortex-A15,https://www.uavnavigation.com/products/autopilots/vector-600
+Veronte 1x,,,Embention,210,10000,92.0,85.0,25,PowerPC e500v2,https://www.embention.com/en/
+Veronte 4x,,,Embention,450,27000,120.0,110.0,40,Quad-core PowerPC,https://www.embention.com/en/
+Veronte DRx,,,Embention,320,23000,105.0,95.0,335,Distributed ARM Cortex-R5,https://www.embention.com/en/
+ProLine Prime,,,Jakadofsky,280,9000,88.0,75.0,30,NXP i.MX 8,https://www.uavnavigation.com/taxonomy/term/80
+T-20 Autopilot System,,,AeroVironment,350,8000,100.0,80.0,42,TI Sitara AM5748,https://www.avinc.com/uas/t-20
+JUMP 20 Flight Controller,,,AeroVironment,310,6000,95.0,75.0,38,TI Sitara AM5748,https://www.avinc.com/uas/jump-20
+Pegasus HP AMT,,,AMT,420,9800,110.0,90.0,50,Intel Atom x7-E3950,http://www.rc-airplane-advisor.com/model-jetengines.html
+Pixhawk 6C,,,Holybro,86,499,98.5,98.5,44,STM32H7 + RP2040,https://www.unmannedsystemstechnology.com/expo/uav-autopilotsystems/
+MicroPilot mp2128g,,,MicroPilot,38,7500,60.0,40.0,10,ARM Cortex-M4,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+CloudCap Piccolo II,,,CloudCap,220,12000,76.0,64.0,332,PowerPC 555,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+DJI A3 Pro,,,DJI,175,1799,100.0,65.0,353,STM32F427,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+UAVOS AP-10,,,UAVOS,320,8900,100.0,70.0,40,Intel Atom,https://www.unmannedsystemstechnology.com/expo/uavautopilot-systems/ 
+Airware HX1,,,Airware,410,20000,120.0,100.0,50,Dual ARM Cortex-A9,https://www.unmannedsystemstechnology.com/expo/uavautopilot-systems/
+Triductor M8,,,Trimble,190,6500,80.0,65.0,30,STM32F7 + STM32H7,https://www.unmannedsystemstechnology.com/expo/uav-autopilotsystems/
+XCruiser-Mini,,,Inertial Labs,125,4950,70.0,60.0,25,TI OMAP-L138,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+Volarious V-100,,,Volarious,280,11000,95.0,75.0,35,NXP i.MX 8,https://www.unmannedsystemstechnology.com/expo/uavautopilot-systems/
+SkyCircuits SkyLeader,,,SkyCircuits,350,14500,110.0,85.0,40,Dual PowerPC,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+MikroKopter BL Ctrl v3,,,MikroKopter,62,420,58.0,42.0,18,STM32F4,https://www.unmannedsystemstechnology.com/expo/uav-autopilot-systems/
+Parrot Bluegrass,,,Parrot,89,400,75.0,55.0,20,ARM Cortex-A7,https://www.jouav.com/blog/drone-types.html
+Yuneec H520 Controller,,,Yuneec,210,3200,100.0,80.0,30,Intel Atom,https://www.jouav.com/blog/drone-types.html
+UAV Engine AP-2,,,UAV Engine,510,18000,130.0,100.0,55,Dual PowerPC,https://www.jouav.com/blog/drone-types.html
+Xenonaut-X1,,,Xenonautics,185,5800,88.0,72.0,28,TI Jacinto 7,https://www.uavnavigation.com/taxonomy/term/80
+Airborne Atlantic AD-3,,,Airborne,270,9750,92.0,78.0,32,NXP i.MX 8,https://www.uavnavigation.com/products/autopilots
+PteroDAQ G3,,,PteroDynamics,155,7300,82.0,68.0,26,STM32H743VI,https://www.avinc.com/uas/t-20
+Nordic NeuPilot M8,,,Nordic,195,4950,78.0,64.0,29,NVIDIA Jetson TX2,https://www.embention.com/en/
+Kespry K2 Autopilot,,,Kespry,230,5500,85.0,70.0,33,Qualcomm Snapdragon,https://www.embention.com/en/
+Flyox I Autopilot,,,Flyox,380,16000,115.0,95.0,48,Dual ARM Cortex-A53,https://safran-navigation-timing.com/uav-rov-autopilot/

@@ -1,0 +1,42 @@
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f0f0; }
+canvas { display: block; }
+#ui-container { position: absolute; top: 10px; left: 10px; background: rgba(255, 255, 255, 0.92); padding: 10px 15px; border-radius: 10px; width: 360px; max-height: 95vh; overflow-y: auto; }
+.slider-group { margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.slider-group label { flex-grow: 1; }
+.slider-group input[type="range"] { width: 60%; }
+.optimize-btn {
+    margin-left: 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+.optimize-btn:hover {
+    background-color: #e0e0e0;
+}
+label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+input[type="range"] { width: 100%; }
+h2 { margin-top: 0; border-bottom: 1px solid #ccc; padding-bottom: 10px;}
+hr { border: none; border-top: 1px solid #ddd; margin: 15px 0; }
+#data-display, #weight-breakdown { margin-top: 15px; padding-top: 15px; border-top: 1px solid #ccc; }
+#data-display div { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+#data-display span { font-weight: normal; background-color: #e9ecef; padding: 2px 6px; border-radius: 4px; float: right; }
+#pie-chart-container { display: flex; align-items: center; gap: 15px; margin-top: 10px;}
+#pie-chart { width: 100px; height: 100px; border-radius: 50%; border: 1px solid #ccc; }
+#legend { font-size: 12px; }
+.legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+.legend-color { width: 12px; height: 12px; border: 1px solid rgba(0,0,0,0.2); margin-right: 8px; }
+#panels-container { display: flex; gap: 10px; position: absolute; top: 10px; right: 10px; z-index: 11; }
+#aero-panel, #powerplant-panel { background: rgba(255, 255, 255, 0.92); padding: 10px 15px; border-radius: 10px; width: 320px; display: block; }
+#drag-graph, #thrust-graph, .graph-canvas { width: 100%; height: 150px; background-color: #e9ecef; border-radius: 4px; }
+
+#flight-envelope-graph, #drag-graph {
+    --max-speed-color: red;
+    --low-speed-color: blue;
+    --induced-drag-color: #0077ff;
+    --parasitic-drag-color: #dc3545;
+    --total-drag-color: #20c997;
+    --graph-line-width: 1;
+}

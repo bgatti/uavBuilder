@@ -1,0 +1,26 @@
+ModelID,Weight_g,Price_USD,performance,metadata,Length_mm,Width_mm,Height_mm,SnesorSize_inch,Reso_MP,Pixel_Size,fps,Interface,FOV,Low_Light_Performance,Power_mW,Link,Country
+Sony IMX477,4.5,79.99,,,25,24,11,2.3,12.3,1.55,21,MIPI-CSI,78,Good,350,https://www.waveshare.com/wiki/IMX477_12.3MP_Camera,Japan
+Sony IMX462,3.2,65.0,,,24,25,8,2.8,2.0,2.9,60,MIPI-CSI,141,Excellent,280,https://www.arducam.com/2mp-imx462-color-ultra-low-light-starvis-camera-module,Japan
+Sony IMX219,3.4,29.99,,,25,24,9,3.0,8.0,1.12,30,MIPI-CSI,160,Fair,250,https://www.waveshare.com/imx219-d160.htm,Japan
+Sony IMX290,4.8,89.99,,,38,38,18,2.8,2.1,2.9,60,MIPI-CSI,120,Excellent,400,https://www.e-consystems.com/sony-imx290-ultra-low-light-usb-camera.asp,Japan
+Sony IMX327,4.2,75.0,,,35,35,15,2.8,2.0,2.9,60,MIPI-CSI,110,Excellent,380,https://www.security.org/security-cameras/imx327/,Japan
+Sony IMX415,5.1,125.0,,,42,42,20,2.8,8.3,1.45,30,MIPI-CSI,85,Very Good,450,https://www.sony-semicon.com/en/products/is/security/security.html,Japan
+Arducam IMX477-HQ,4.8,89.99,,,38,38,20,2.3,12.3,1.55,21,MIPI-CSI,78,Good,350,https://www.arducam.com/products/camera-breakout-board/12mp-imx477-cameras/,USA
+RunCam Phoenix 2,8.5,49.99,,,28,28,22,2.8,8.3,1.55,25,Analog,120,Good,800,https://shop.runcam.com/runcam-phoenix-2/,China
+RunCam Eagle 2 Pro,6.2,35.99,,,19,19,18,2.8,2.0,1.55,25,Analog,130,Fair,600,https://shop.runcam.com/runcam-eagle-2-pro/,China
+Caddx Ratel 2,5.8,38.99,,,19,19,17,2.8,12.3,1.55,25,Analog,160,Very Good,550,https://www.caddxfpv.com/collections/fpv-cameras/products/caddx-ratel-2,China
+Foxeer Predator V5,7.2,45.99,,,19,19,20,2.8,0.16,1.55,25,Analog,155,Good,650,https://www.foxeer.com/foxeer-predator-v5-mini-fpv-camera-p-360.html,China
+Foxeer Falkor Mini,4.5,39.99,,,14,14,16,3.0,0.32,1.55,25,Analog,120,Fair,400,https://www.foxeer.com/foxeer-falkor-mini-1200tvl-fpv-camera-p-341.html,China
+DJI Action 2,56.0,279.0,,,39,39,22,1.7,12.0,1.7,120,USB-C,155,Very Good,4500,https://www.dji.com/action-2,China
+GoPro Hero 11 Mini,133.0,299.99,,,52,55,34,1.0,24.7,1.22,60,USB-C,156,Excellent,6000,https://gopro.com/en/us/shop/cameras/hero11-mini/CHDHF-111.html,USA
+Insta360 GO 3,35.0,199.99,,,25,54,21,2.0,2.7,1.22,30,USB-C,120,Good,2500,https://www.insta360.com/product/insta360-go3,China
+FLIR Boson 320,7.5,1299.0,,,21,21,11,2.8,0.32,12.0,60,USB,50,,800,https://www.flir.com/products/boson/,USA
+FLIR Lepton 3.5,1.5,199.0,,,11,11,6,2.8,0.16,17.0,9,SPI,57,,150,https://www.flir.com/products/lepton/,USA
+Seek Thermal CompactPRO,13.2,499.0,,,68,20,14,2.8,0.32,12.0,15,USB,36,,1200,https://www.thermal.com/compact-series.html,USA
+OpenMV Cam H7,15.0,75.0,,,35,35,12,4.0,5.0,1.4,30,USB,70,Fair,500,https://openmv.io/products/openmv-cam-h7,USA
+Pixy2 CMUcam5,45.0,69.0,,,42,52,12,4.0,1.3,3.6,60,SPI/I2C,75,Fair,600,https://pixycam.com/pixy2/,USA
+JeVois Smart Camera,35.0,49.0,,,34,24,21,4.0,1.3,3.6,120,USB,65,Fair,800,https://jevois.org/,USA
+Leopard IMX477-83,4.2,95.0,,,25,24,11,2.3,12.3,1.55,21,MIPI-CSI,83,Good,350,https://leopardimaging.com/product-tag/imx477/,USA
+e-CAM130_CUXVR,8.5,125.0,,,30,30,15,3.0,13.0,1.1,30,MIPI-CSI,70,Very Good,450,https://www.e-consystems.com/nvidia-jetson-cameras.asp,India
+Arducam OV9281,2.2,39.99,,,25,24,9,4.0,1.0,3.0,120,MIPI-CSI,70,Good,160,https://www.arducam.com/product/arducam-ov9281-mipi-global-shutter-monochrome-camera-module/,USA
+Waveshare IMX219-77,3.6,32.99,,,25,24,9,4.0,8.0,1.12,30,MIPI-CSI,77,Fair,250,https://www.waveshare.com/imx219-77.htm,China

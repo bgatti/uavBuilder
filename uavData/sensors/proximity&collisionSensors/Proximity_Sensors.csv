@@ -1,0 +1,31 @@
+ModelID,Manufacturer,Type,performance,metadata,Weight (g),Price (USD),Length,Width,Height,Range (m),Field of View,Interface,Link,Country
+TFmini-S,Benewake,LiDAR,,,5,44.9,20,13,12,12,2,UART/I2C,https://www.benewake.com/products/tfmini-s,China
+TFmini Plus,Benewake,LiDAR,,,11,49.9,35,18,21,12,3.6,UART/I2C,https://www.benewake.com/products/tfmini-plus,China
+TF-Luna,Benewake,LiDAR,,,5,24.9,35,21,13,8,2,UART/I2C,https://www.benewake.com/products/tf-luna,China
+TF02-Pro,Benewake,LiDAR,,,50,89.9,62,44,32,40,3,UART/CAN,https://www.benewake.com/products/tf02-pro,China
+TF03,Benewake,LiDAR,,,77,239.9,44,43,32,180,0.5,UART/CAN,https://www.benewake.com/products/tf03,China
+CE30-A,Benewake,LiDAR,,,219,239.9,132,105,45,4,60,I2C/CAN,https://www.benewake.com/products/ce30-a,China
+MB1242 I2CXL-MaxSonar-EZ4,MaxBotix,Ultrasonic,,,22,39.95,50,22,25,65,44,I2C,https://www.maxbotix.com/ultrasonic-sensors/mb1242.htm,USA
+MB1043 HRLV-MaxSonar-EZ4,MaxBotix,Ultrasonic,,,5.9,34.95,22,20,15,5,31,I2C,https://www.maxbotix.com/ultrasonic-sensors/mb1043.html,USA
+MB7040 I2CXL-MaxSonar-WR,MaxBotix,Ultrasonic,,,25,99.95,50,22,25,7,33,I2C,https://www.maxbotix.com/ultrasonic-sensors/mb7040.htm,USA
+VL53L0X,STMicroelectronics,ToF,,,1,14.95,12,10,2.5,2,27,I2C,https://www.st.com/en/imaging-and-photonics-sensors/vl53l0x.html,Switzerland
+VL53L1X,STMicroelectronics,ToF,,,1,18.5,12,10,2.5,4,27,I2C,https://www.st.com/en/imaging-and-photonics-sensors/vl53l1x.html,Switzerland
+VL6180X,STMicroelectronics,ToF,,,0.5,13.95,12,10,2.5,0.1,25,I2C,https://www.st.com/en/imaging-and-photonics-sensors/vl6180x.html,Switzerland
+TDC7200,Texas Instruments,ToF,,,0.8,13.95,6,6,1,2,42,I2C/SPI,https://www.ti.com/product/TDC7200,USA
+HC-SR04,SparkFun,Ultrasonic,,,8.5,9.99,40,20,15,4,15,TTL,https://www.sparkfun.com/products/15569,USA
+TeraRanger One,Terabee,ToF,,,8,99,35,29,22,4,12,UART/I2C,https://www.terabee.com/shop/lidar-tof-range-finders/teraranger-one/,France
+TeraRanger Evo Mini,Terabee,ToF,,,1.35,49,29,29,13,2,42,UART/I2C/USB,https://www.terabee.com/shop/lidar-tof-range-finders/teraranger-evo-mini/,France
+TeraRanger Evo 64px,Terabee,ToF,,,12,149,30,30,12,3,42,I2C/USB,https://www.terabee.com/shop/lidar-tof-range-finders/teraranger-evo-64px/,France
+LDS-01,Robotis,LiDAR,,,117,199,54,54,34,3.5,360,Serial,https://www.robotis.us/360-laser-distance-sensor-lds-01/,South Korea
+A1M8,YDLIDAR,LiDAR,,,190,299,50,50,96,8,360,USB/Serial,https://www.ydlidar.com/products/2D-LiDAR/A1M8,China
+A2M12,YDLIDAR,LiDAR,,,125,149,50,50,36,12,360,USB/Serial,https://www.ydlidar.com/products/2D-LiDAR/A2M12,China
+TFMini Micro,Benewake,LiDAR,,,4.7,39.9,35,21,13.5,12,2,UART/I2C,https://www.benewake.com/products/tfmini-micro,China
+SF11/C,LightWare LiDAR,LiDAR,,,30,299,42,30,20,120,42,Serial,https://lightwarelidar.com/products/sf11-c,USA
+LeddarOne,LeddarTech,LiDAR,,,14,99,45,35,25,40,3,Serial/I2C,https://leddartech.com/solutions/leddarone-lidar/,Canada
+LeddarVu8,LeddarTech,LiDAR,,,75,249,70,35,50,45,48,Serial/CAN,https://leddartech.com/solutions/leddar-vu8-lidar/,Canada
+GP2Y0A21YK0F,Sharp,Infrared,,,3.5,12.95,29,13,13,0.8,48,Analog,https://www.sparkfun.com/products/242,USA
+TCRT5000,Vishay,Infrared,,,2,10.5,10,5,5,0.5,42,Analog,https://www.digikey.com/en/products/detail/vishay-semiconductor-opto-division/TCRT5000/1681266,USA
+APDS-9960,Broadcom,Proximity,,,0.2,14.95,4,3,1.35,0.1,42,I2C,https://www.broadcom.com/products/optical-sensors/ambient-light-photo-sensors/apds-9960,USA
+RPLIDAR A1M8-R6,Slamtec,LiDAR,,,190,99,50,50,96,12,360,USB/Serial,https://www.slamtec.com/en/Lidar/A1,China
+TeraRanger Evo 3m,Terabee,ToF,,,9,99,30,30,12,3,42,UART/I2C/USB,https://www.seeedstudio.com/RPLiDAR-A1M8-R6-360-Degree-Laser-Scanner-Kit-12M-Range-p-4785.html,France
+TeraRanger Hub Evo,Terabee,ToF,,,30,99,100,30,20,3,42,UART/USB,https://www.terabee.com/shop/accessories/teraranger-hub-evo/,France
