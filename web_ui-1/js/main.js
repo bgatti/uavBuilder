@@ -13,7 +13,7 @@ import {
     getAirframeComponents
 } from './airframe.js';
 import { getBatteryDimensions, getPayloadDimensions, getCentralBodyDiameter } from './sizing.js';
-import { calculateParasiticDrag, calculateInducedDrag, calculatePropellerThrust } from './physics.js';
+import { calculateParasiticDrag, calculateInducedDrag, calculatePropellerThrust, calculatePowerAtSpeed, calculateEfficiencyKmPerKw } from './physics.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     let scene, camera, renderer, copterGroup, controls;
@@ -95,26 +95,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         controls.update();
     }
 
-    let autoRotationTime = 0;
-    
     function animate() {
         requestAnimationFrame(animate);
-        
-        // Auto-rotate the camera around the copter for a clean orbit view
-        if (copterGroup.children.length > 0) {
-            autoRotationTime += 0.008;
-            
-            // Get the current distance from camera to controls target
-            const targetPos = controls.target;
-            const camDistance = camera.position.distanceTo(targetPos);
-            
-            // Orbit camera around the target on the Z axis
-            const radius = camDistance;
-            camera.position.x = targetPos.x + radius * Math.cos(autoRotationTime);
-            camera.position.z = targetPos.z + radius * Math.sin(autoRotationTime);
-            // Keep Y position stable
-        }
-        
         controls.update();
         renderer.render(scene, camera);
     }
@@ -386,6 +368,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             mtow += (newMtow - mtow) * 0.1; // Slow damping factor
         }
+        
+        // Show/hide maxed out parameters panel based on whether there are any
+        const maxedOutPanel = document.getElementById('maxed-out-panel');
+        if (maxedOutPanel) {
+            maxedOutPanel.style.display = maxedOutParams.size > 0 ? 'block' : 'none';
+        }
         // Show warning if thrust-to-weight ratio is not achievable
         const warningDiv = document.getElementById('tw-warning');
         if (warningDiv) {
@@ -403,7 +391,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         let maxSpeed = 0;
         let cruiseSpeed = 0;
-        let parasiticDrag = 0;
+        let maxEfficiency = 0;
+        let peakEfficiencySpeed = 0;
+        let enduranceRange = 0;
 
         for (let speed = 1; speed < 112; speed += 1) {
             const drag = calculateParasiticDrag(speed, airframe, battery, payload);
@@ -417,13 +407,35 @@ document.addEventListener('DOMContentLoaded', async function() {
             } else {
                 break;
             }
-            if (speed === 20) { // Representative speed for drag display
-                parasiticDrag = drag;
+        }
+
+        // Calculate efficiency at various speeds
+        const efficiencyData = [];
+        for (let speed = 0.1; speed <= 20; speed += 0.25) {
+            const power = calculatePowerAtSpeed(speed, mtow, airframe, battery, payload, powerToHover);
+            const efficiency = calculateEfficiencyKmPerKw(speed, power);
+            if (efficiency > 0) {
+                efficiencyData.push({ speed, efficiency, power });
+                
+                if (efficiency > maxEfficiency) {
+                    maxEfficiency = efficiency;
+                    peakEfficiencySpeed = speed;
+                }
             }
+        }
+        
+        // Calculate endurance (range at cruise speed)
+        if (cruiseSpeed > 0) {
+            const cruisePower = calculatePowerAtSpeed(cruiseSpeed, mtow, airframe, battery, payload, powerToHover);
+            const enduranceHours = (batteryMetrics.energy_Wh / cruisePower) * 0.75; // 75% usable
+            const cruiseSpeedKmh = cruiseSpeed * 3.6;
+            enduranceRange = enduranceHours * cruiseSpeedKmh;
         }
 
         setText('duration-display', `${durationMinutes.toFixed(1)} min`);
-        setText('parasitic-drag-display', `${parasiticDrag.toFixed(2)} N @ 20 m/s`);
+        setText('max-efficiency-display', `${(maxEfficiency || 0).toFixed(2)} km/kW`);
+        setText('peak-speed-display', `${(peakEfficiencySpeed || 0).toFixed(1)} m/s`);
+        setText('endurance-display', `${(enduranceRange || 0).toFixed(2)} km`);
         setText('max-speed-display', `${maxSpeed.toFixed(1)} m/s`);
         setText('cruise-speed-display', `${cruiseSpeed.toFixed(1)} m/s`);
 
@@ -462,14 +474,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (aeroSpans[0]) aeroSpans[0].innerText = `${diskLoading.toFixed(0)} N/m²`;
             if (aeroSpans[1]) aeroSpans[1].innerText = `${(propDiameter * 100).toFixed(1)} cm`;
             if (aeroSpans[2]) aeroSpans[2].innerText = `${tipSpeed.toFixed(0)} m/s`;
-            // Add thrust required
-            if (aeroSpans[3]) {
-                aeroSpans[3].innerText = `Thrust Required: ${thrustRequired && !isNaN(thrustRequired) ? thrustRequired.toFixed(2) : '-'} N`;
-            } else {
-                const thrustSpan = document.createElement('span');
-                thrustSpan.innerText = `Thrust Required: ${thrustRequired && !isNaN(thrustRequired) ? thrustRequired.toFixed(2) : '-'} N`;
-                aeroPanel.appendChild(thrustSpan);
-            }
+            if (aeroSpans[3]) aeroSpans[3].innerText = `${maxEfficiency.toFixed(2)} km/kW`;
+            if (aeroSpans[4]) aeroSpans[4].innerText = `${peakEfficiencySpeed.toFixed(1)} m/s`;
+            if (aeroSpans[5]) aeroSpans[5].innerText = `${enduranceRange.toFixed(2)} km`;
         }
 
         // Update UI with battery metrics from the consolidated calculation
@@ -526,14 +533,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         console.log('TRACE: batteryWeight before renderMultiCopter:', batteryMetrics.weight);
         renderMultiCopter(numMotors, batteryMetrics.weight, payloadKg, motor, propDiameter);
-        updatePropellerGraph(propDiameter, propPitch, motor, mtow, airframe, battery, payload);
+        updateEfficiencyGraph(powerToHover, mtow, airframe, battery, payload);
         currentUAV['max-speed'] = maxSpeed;
         currentUAV['cruise-speed'] = cruiseSpeed;
         currentUAV['mtow'] = mtow;
         currentUAV['duration'] = durationMinutes;
         currentUAV['prop-diameter'] = propDiameter;
         currentUAV['tip-speed'] = (motor.max_rpm / 60) * Math.PI * propDiameter;
-        currentUAV['parasitic-drag'] = parasiticDrag;
+        currentUAV['max-efficiency'] = maxEfficiency;
+        currentUAV['cruise-efficiency'] = cruiseEfficiency;
+        currentUAV['endurance-range'] = enduranceRange;
         currentUAV['thrust-required'] = thrustRequired;
         
         // Add all slider values to currentUAV
@@ -546,17 +555,27 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
 
-    function updatePropellerGraph(diameter, pitch, motor, mtow, airframe, battery, payload) {
-        const canvas = document.getElementById('propeller-graph');
+    function updateEfficiencyGraph(powerToHover, mtow, airframe, battery, payload) {
+        const canvas = document.getElementById('efficiency-graph');
+        if (!canvas) return;
+        
         const ctx = canvas.getContext('2d');
         const w = canvas.width, h = canvas.height;
         ctx.clearRect(0, 0, w, h);
 
-        const numMotors = parseInt(document.getElementById('num-motors-slider').value);
-        const max_airspeed = 111; // m/s
-        const hover_thrust = mtow * 9.81;
-        const max_thrust = motor.thrust_N * numMotors;
-        const y_max = Math.max(hover_thrust, calculateParasiticDrag(max_airspeed, airframe, battery, payload)) * 1.2;
+        // Calculate efficiency curve over speed range
+        const efficiencyData = [];
+        let maxEfficiency = 0;
+        const maxSpeed = 25; // m/s
+        
+        for (let speed = 0.5; speed < maxSpeed; speed += 0.5) {
+            const power = calculatePowerAtSpeed(speed, mtow, airframe, battery, payload, powerToHover);
+            const efficiency = calculateEfficiencyKmPerKw(speed, power);
+            efficiencyData.push({ speed, efficiency });
+            if (efficiency > maxEfficiency) {
+                maxEfficiency = efficiency;
+            }
+        }
 
         // Helper function for nice grid lines
         function getNiceGrid(maxVal, numLinesApprox = 5) {
@@ -587,25 +606,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         // Draw grid lines and labels
-        ctx.strokeStyle = '#ccc';
-        ctx.fillStyle = '#333';
-        ctx.font = '10px sans-serif';
+        ctx.strokeStyle = '#444';
+        ctx.fillStyle = '#cccccc';
+        ctx.font = '11px sans-serif';
 
-        // Y-axis (Thrust)
-        const yGrid = getNiceGrid(y_max);
+        // Y-axis (Efficiency in km/kW)
+        const yGrid = getNiceGrid(maxEfficiency * 1.1);
         yGrid.lines.forEach(line => {
-            const y = h - (line / y_max) * h;
+            const y = h - (line / (maxEfficiency * 1.1)) * h;
             ctx.beginPath();
             ctx.moveTo(0, y);
             ctx.lineTo(w, y);
             ctx.stroke();
-            ctx.fillText(line.toFixed(0), 5, y - 5);
+            ctx.fillText(line.toFixed(1), 5, y - 5);
         });
 
-        // X-axis (Airspeed)
-        const xGrid = getNiceGrid(max_airspeed);
+        // X-axis (Speed in m/s)
+        const xGrid = getNiceGrid(maxSpeed);
         xGrid.lines.forEach(line => {
-            const x = (line / max_airspeed) * w;
+            const x = (line / maxSpeed) * w;
             ctx.beginPath();
             ctx.moveTo(x, 0);
             ctx.lineTo(x, h);
@@ -613,89 +632,44 @@ document.addEventListener('DOMContentLoaded', async function() {
             ctx.fillText(line.toFixed(0), x + 5, h - 5);
         });
 
-        // Draw parasitic drag curve
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1;
+        // Draw efficiency curve
+        ctx.strokeStyle = '#ffc107'; // Vertex accent gold
+        ctx.lineWidth = 3;
         ctx.beginPath();
-        for (let v = 0; v < max_airspeed; v++) {
-            const drag = calculateParasiticDrag(v, airframe, battery, payload);
-            const x = v * w / max_airspeed;
-            const y = h - drag * h / y_max;
-            if (v === 0) ctx.moveTo(x, y);
+        for (let i = 0; i < efficiencyData.length; i++) {
+            const { speed, efficiency } = efficiencyData[i];
+            const x = (speed / maxSpeed) * w;
+            const y = h - (efficiency / (maxEfficiency * 1.1)) * h;
+            if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
         }
         ctx.stroke();
-        ctx.fillStyle = '#000000';
-        ctx.fillText('Parasitic Drag', 5, h - 15);
 
-        // Draw induced drag curve
-        ctx.strokeStyle = '#800080'; // Purple
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let v = 0; v < max_airspeed; v++) {
-            const drag = calculateInducedDrag(v, mtow, diameter, numMotors);
-            const x = v * w / max_airspeed;
-            const y = h - drag * h / y_max;
-            if (v === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+        // Draw labels
+        ctx.fillStyle = '#cccccc';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('Efficiency (km/kW) vs Speed', 10, 25);
+        ctx.font = '11px sans-serif';
+        ctx.fillText('Y-axis: km/kW', 10, h - 10);
+        ctx.fillText('X-axis: Speed (m/s)', w - 200, h - 10);
+
+        // Mark peak efficiency
+        const peakIdx = efficiencyData.findIndex(d => d.efficiency === maxEfficiency);
+        if (peakIdx >= 0) {
+            const { speed, efficiency } = efficiencyData[peakIdx];
+            const x = (speed / maxSpeed) * w;
+            const y = h - (efficiency / (maxEfficiency * 1.1)) * h;
+            ctx.fillStyle = '#ffd700'; // Brighter gold for peak
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffc107';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#ffc107';
+            ctx.font = 'bold 11px sans-serif';
+            ctx.fillText(`Peak: ${maxEfficiency.toFixed(2)}`, x + 10, y - 15);
         }
-        ctx.stroke();
-        ctx.fillStyle = '#800080';
-        ctx.fillText('Induced Drag', 5, 15);
-
-        // Draw combined drag curve
-        ctx.strokeStyle = '#FFA500'; // Orange
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        for (let v = 0; v < max_airspeed; v++) {
-            const parasitic = calculateParasiticDrag(v, airframe, battery, payload);
-            const induced = calculateInducedDrag(v, mtow, diameter, numMotors);
-            const combined = parasitic + induced;
-            const x = v * w / max_airspeed;
-            const y = h - combined * h / y_max;
-            if (v === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.fillStyle = '#FFA500';
-        ctx.fillText('Combined Drag', 5, 30);
-
-        // Draw max and cruise thrust curves
-        const staticThrust = motor.thrust_N;
-        const motorRpm = motor.max_rpm;
-
-        // Max Thrust Curve
-        ctx.strokeStyle = '#FF0000'; // Red for max thrust
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        for (let v = 0; v < max_airspeed; v++) {
-            const dynamicThrust = calculatePropellerThrust(staticThrust, pitch, motorRpm, v) * numMotors;
-            const x = v * w / max_airspeed;
-            const y = h - dynamicThrust * h / y_max;
-            if (v === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.fillStyle = '#FF0000';
-        ctx.fillText('Max Thrust', w - 70, h - (calculatePropellerThrust(staticThrust, pitch, motorRpm, 0) * numMotors * h / y_max) - 5);
-
-        // Cruise Thrust Curve (75% throttle)
-        ctx.strokeStyle = '#00FF00'; // Green for cruise
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        for (let v = 0; v < max_airspeed; v++) {
-            // Assuming 75% throttle corresponds to roughly 75% RPM and 75%^2 static thrust
-            const cruiseRpm = motorRpm * 0.85; // Non-linear throttle/RPM, 85% RPM is closer to 75% power
-            const cruiseStaticThrust = staticThrust * Math.pow(0.85, 2);
-            const dynamicThrust = calculatePropellerThrust(cruiseStaticThrust, pitch, cruiseRpm, v) * numMotors;
-            const x = v * w / max_airspeed;
-            const y = h - dynamicThrust * h / y_max;
-            if (v === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.fillStyle = '#00FF00';
-        ctx.fillText('Cruise Thrust', w - 120, h - (calculatePropellerThrust(staticThrust * Math.pow(0.85, 2), pitch, motorRpm * 0.85, 0) * numMotors * h / y_max) - 5);
     }
 
 

@@ -116,91 +116,75 @@ export function getMotorDimensions(power_W, rpm) {
     return { diameter_m: d, height_m: h, aspect, volume };
 }
 /**
- * Estimates drone motor characteristics using an empirically-derived model.
+ * Estimates drone motor characteristics using disk loading and speed of sound constraints.
  *
- * This function is based on a linear regression model trained on a dataset of 10 real-world
- * drone motors, ranging from FPV racing to industrial heavy-lift. It replaces fixed-value
- * assumptions with data-driven formulas, leading to significantly more accurate predictions
- * across a wide range of inputs.
+ * Algorithm:
+ * 1. Calculate max RPM based on prop diameter and tip speed limit (80% of speed of sound)
+ * 2. Determine required KV from max RPM and voltage
+ * 3. Select closest available KV from real motor database
+ * 4. Return motor specs from real database or estimated specs
  *
  * @param {number} thrust_N The required peak thrust from a single motor in Newtons.
  * @param {number} disk_loading_N_m2 The disk loading of the propeller system in Newtons per square meter.
+ * @param {number} [prop_diameter_m=0.3] The propeller diameter in meters.
  * @param {number} [voltage_V=22.2] The nominal battery voltage (e.g., 22.2 for 6S, 14.8 for 4S). Defaults to 6S.
  * @returns {object} An object containing the estimated motor properties.
  */
-export function getMotorByThrust(thrust_N, disk_loading_N_m2, prop_diameter_m, voltage_V = 22.2) {
-
-    // --- Regression Coefficients (Derived from the Python Scikit-learn model) ---
-    // These "magic numbers" are the trained intercepts and coefficients from our analysis.
-
-    // 1. Power Model: log(Power) = intercept + coeff * log(Thrust)
-    const POWER_INTERCEPT = 3.987;
-    const POWER_COEFF_THRUST = 1.096;
-
-    // 2. Weight Model: log(Weight) = intercept + coeff * log(Power)
-    const WEIGHT_INTERCEPT = -4.234;
-    const WEIGHT_COEFF_POWER = 1.155;
-
-    // 3. Diameter Model: log(Diameter) = intercept + coeff * log(Weight)
-    const DIAMETER_INTERCEPT = 1.059;
-    const DIAMETER_COEFF_WEIGHT = 0.443;
+export function getMotorByThrust(thrust_N, disk_loading_N_m2, prop_diameter_m = 0.3, voltage_V = 22.2) {
+    // --- Speed of Sound Constraint ---
+    const SPEED_OF_SOUND = 343; // m/s at sea level
+    const TIP_SPEED_LIMIT = 0.8 * SPEED_OF_SOUND; // 80% of speed of sound (typical for efficiency)
     
-    // 4. KV Model: log(KV) = intercept + coeff1*log(Loading) + coeff2*log(Power)
-    const KV_INTERCEPT = 13.561;
-    const KV_COEFF_LOADING = 0.505;
-    const KV_COEFF_POWER = -1.185;
-
-    // --- Calculations ---
-
-    // 1. Estimate Power based on Thrust
-    const logThrust = Math.log(thrust_N);
-    const logPower = POWER_INTERCEPT + POWER_COEFF_THRUST * logThrust;
-    const power_W = Math.exp(logPower);
-
-    // 2. Estimate Weight based on Power
-    const logWeight = WEIGHT_INTERCEPT + WEIGHT_COEFF_POWER * logPower;
-    const weight_g = Math.exp(logWeight);
-
-    // 3. Estimate KV based on Disk Loading and Power
-    const logLoading = Math.log(disk_loading_N_m2);
-    const logKv = KV_INTERCEPT + (KV_COEFF_LOADING * logLoading) + (KV_COEFF_POWER * logPower);
-    const kv = Math.exp(logKv);
+    // Calculate max RPM based on prop diameter and tip speed limit
+    // Tip Speed = (RPM / 60) * π * Diameter
+    // RPM = (Tip Speed * 60) / (π * Diameter)
+    const max_rpm = (TIP_SPEED_LIMIT * 60) / (Math.PI * prop_diameter_m);
     
-    // 4. Estimate Diameter based on Weight, then Height based on an improved shape factor
-    const logDiameter = DIAMETER_INTERCEPT + DIAMETER_COEFF_WEIGHT * logWeight;
-    const regression_diameter_mm = Math.exp(logDiameter);
-
-    // Enforce a minimum motor diameter based on propeller size for realism.
-    // A common ratio for motor diameter to prop diameter is ~1/4 to 1/6. We'll use 1/5 as a floor.
-    const min_diameter_mm = (prop_diameter_m * 1000) / 5.0;
+    // Calculate required KV from max RPM and voltage
+    // KV = RPM / Voltage
+    const required_kv = max_rpm / voltage_V;
     
-    const diameter_mm = Math.max(regression_diameter_mm, min_diameter_mm);
+    // Find closest available KV from REAL_MOTORS database
+    let closest_kv = 100;
+    let closest_distance = Math.abs(100 - required_kv);
     
-    // Improved Shape Factor: Height/Diameter ratio should be LOW for low KV (low RPM), HIGH for high KV (high RPM)
-    // Typical pancake motors: ratio ~0.3-0.5; tall racing motors: ratio ~1.0-1.3
-    // Use a logistic function for realism
-    let shape_factor = 0.4 + 0.9 * (1 / (1 + Math.exp(-(kv - 1000) / 500)));
-    // Clamp to realistic range
-    shape_factor = Math.max(0.3, Math.min(shape_factor, 1.3));
-    const height_mm = diameter_mm * shape_factor;
-
-    // Calculate motor volume (cylinder)
-    const volume_L = Math.PI * Math.pow(diameter_mm / 2 / 10, 2) * (height_mm / 10) / 1000; // Liters
-    // Power density (W/L)
-    const power_density = power_W / volume_L;
+    const available_kvs = [...new Set(REAL_MOTORS.map(m => m.KV))].sort((a, b) => a - b);
+    for (const kv of available_kvs) {
+        const distance = Math.abs(kv - required_kv);
+        if (distance < closest_distance) {
+            closest_distance = distance;
+            closest_kv = kv;
+        }
+    }
     
-    // 5. Calculate Max RPM using the provided voltage
-    const max_rpm = kv * voltage_V;
-
-    return {
-        power_W,
-        weight_kg: weight_g / 1000,
-        diameter_m: diameter_mm / 1000,
-        height_m: height_mm / 1000,
-        kv,
-        max_rpm,
-        thrust_N,
-        volume_L,
-        power_density
-    };
+    // Find a motor from REAL_MOTORS with this KV that meets thrust requirement
+    let selected_motor = null;
+    for (const motor of REAL_MOTORS) {
+        if (motor.KV === closest_kv && motor.thrust_N >= thrust_N * 0.9) {
+            if (!selected_motor || motor.thrust_N < selected_motor.thrust_N) {
+                selected_motor = motor;
+            }
+        }
+    }
+    
+    // If no exact match, estimate specs using power-thrust relationship
+    if (!selected_motor) {
+        // Estimate power from thrust using empirical relationship: Power ≈ Thrust ^ 1.1
+        const estimated_power_W = Math.pow(thrust_N, 1.1) * 50;
+        
+        // Find closest motor by power as fallback
+        let best_motor = REAL_MOTORS[0];
+        let best_diff = Math.abs(best_motor.Max_Power_W - estimated_power_W);
+        for (const motor of REAL_MOTORS) {
+            const diff = Math.abs(motor.Max_Power_W - estimated_power_W);
+            if (diff < best_diff) {
+                best_diff = diff;
+                best_motor = motor;
+            }
+        }
+        selected_motor = best_motor;
+    }
+    
+    // Normalize and return the selected motor
+    return normalizeMotor(selected_motor);
 }

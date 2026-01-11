@@ -273,26 +273,29 @@ hr {
     margin: 0 0 10px 0;
     padding-bottom: 8px;
     border-bottom: 2px solid var(--vertex-accent);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    color: var(--vertex-accent);
+    color: var(--vertex-accent-light);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 #aero-panel div,
 #performance-panel div,
 #powerplant-panel div {
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 6px;
-    color: var(--vertex-text);
+    color: var(--vertex-text-dim);
+    font-weight: 500;
 }
 
 #aero-panel span,
 #performance-panel span,
 #powerplant-panel span {
-    font-weight: 600;
-    color: var(--vertex-accent);
+    font-weight: 700;
+    color: var(--vertex-accent-light);
+    letter-spacing: 0.5px;
 }
 
 #data-display,
@@ -300,6 +303,21 @@ hr {
     margin-top: 15px;
     padding-top: 12px;
     border-top: 1px solid var(--vertex-border);
+}
+
+#performance-section {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 2px solid var(--vertex-accent);
+}
+
+.performance-section-title {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--vertex-accent);
 }
 
 #data-display div {

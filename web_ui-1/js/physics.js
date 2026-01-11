@@ -78,3 +78,33 @@ export function calculatePropellerThrust(staticThrust_N, propPitch_in, motorRpm,
     // 3. Clamp the thrust to be non-negative.
     return Math.max(0, thrust);
 }
+
+/**
+ * Calculates power required to achieve a given speed
+ * @param {number} speed_ms - Speed in m/s
+ * @param {number} mtow_kg - Total mass in kg
+ * @param {object} airframe - Airframe properties
+ * @param {object} battery - Battery dimensions
+ * @param {object} payload - Payload dimensions
+ * @param {number} hoverPower_W - Power required to hover
+ * @returns {number} Total power required in Watts
+ */
+export function calculatePowerAtSpeed(speed_ms, mtow_kg, airframe, battery, payload, hoverPower_W) {
+    const drag = calculateParasiticDrag(speed_ms, airframe, battery, payload);
+    const dragPower = drag * speed_ms;
+    // Total power with 80% drivetrain efficiency
+    return (hoverPower_W + dragPower) / 0.8;
+}
+
+/**
+ * Calculates efficiency in km/kW at a given speed
+ * @param {number} speed_ms - Speed in m/s
+ * @param {number} power_W - Power required in Watts
+ * @returns {number} Efficiency in km/kW
+ */
+export function calculateEfficiencyKmPerKw(speed_ms, power_W) {
+    if (power_W <= 0 || speed_ms <= 0) return 0;
+    const speed_kmh = speed_ms * 3.6;
+    const power_kW = power_W / 1000;
+    return speed_kmh / power_kW;
+}

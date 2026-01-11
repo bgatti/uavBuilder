@@ -25,19 +25,16 @@
     <!-- ======================================================================= -->
     <div id="panels-container">
         <div id="aero-panel">
-            <h3 class="panel-title">AERODYNAMIC ANALYSIS</h3>
+            <h3 class="panel-title">EFFICIENCY ANALYSIS</h3>
             <div>Disk Loading: <span>-</span></div>
             <div>Propeller Diameter: <span>-</span></div>
             <div>Tip Speed: <span>-</span></div>
-            <div>Parasitic Drag: <span id="parasitic-drag-display">-</span></div>
-            <canvas id="propeller-graph" class="graph-canvas"></canvas>
+            <div>Max Efficiency: <span id="max-efficiency-display">-</span></div>
+            <div>Speed @ Peak: <span id="peak-speed-display">-</span></div>
+            <div>Range @ Cruise: <span id="endurance-display">-</span></div>
+            <canvas id="efficiency-graph" class="graph-canvas"></canvas>
         </div>
-        <div id="performance-panel">
-            <h3 class="panel-title">PERFORMANCE ANALYSIS</h3>
-            <div>Max Speed: <span id="max-speed-display">-</span></div>
-            <div>Cruise Speed: <span id="cruise-speed-display">-</span></div>
-            <canvas id="payload-range-graph" class="graph-canvas"></canvas>
-        </div>
+
         <div id="powerplant-panel">
             <h3 class="panel-title">PROPULSION SYSTEM ANALYSIS</h3>
             <div id="maxed-out-panel">
@@ -115,6 +112,12 @@
                 <canvas id="pie-chart"></canvas>
                 <div id="legend"></div>
             </div>
+        </div>
+
+        <!-- PERFORMANCE ANALYSIS GRAPH -->
+        <div id="performance-section">
+            <h3 class="performance-section-title">Performance Analysis</h3>
+            <canvas id="payload-range-graph" class="graph-canvas"></canvas>
         </div>
     </div>
 
