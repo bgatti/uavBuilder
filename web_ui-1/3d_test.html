@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced UAV Designer (Physics & Weight Analysis)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ======================================================================= -->
+    <!-- SECTION 1: HTML USER INTERFACE                                          -->
+    <!-- ======================================================================= -->
+    <div id="panels-container">
+        <div id="aero-panel">
+            <h3>Aerodynamic Analysis</h3>
+            <div>L/D Ratio: <span id="ld-ratio-display">-</span></div>
+            <div>Oswald Efficiency: <span id="oswald-eff-display">-</span></div>
+            <div>Reynolds Number: <span id="reynolds-display">-</span></div>
+            <hr>
+            <h4>Wing Dimensions</h4>
+            <div>Wing Span: <span id="wing-span-display">-</span> m</div>
+            <div>Root Chord: <span id="root-chord-display">-</span> m</div>
+            <div>Tip Chord: <span id="tip-chord-display">-</span> m</div>
+            <div>Wing Area: <span id="wing-area-display">-</span> m²</div>
+            <hr>
+            <h4>Speeds</h4>
+            <div>Takeoff: <span id="takeoff-speed-display">-</span></div>
+            <div>Best Glide: <span id="glide-speed-display">-</span></div>
+            <hr>
+            <h4>Drag Profile</h4>
+            <canvas id="drag-graph" class="graph-canvas"></canvas>
+            <div>Best Glide Speed: <span id="best-glide-speed-display">-</span></div>
+            <div>Drag at Best Glide: <span id="best-glide-drag-display">-</span> N</div>
+        </div>
+        <div id="powerplant-panel">
+            <h3>Powerplant Analysis</h3>
+            <!-- Fuel Engine Section -->
+            <div id="fuel-engine-section">
+                <div>Weight: <span id="pp-weight-display">-</span> kg</div>
+                <div>Horsepower: <span id="pp-hp-display">-</span> hp</div>
+                <div>Propeller: <span id="pp-prop-display">-</span> in</div>
+            </div>
+            <!-- Electric Motor Section -->
+            <div id="electric-motor-section" style="display: none;">
+                <h4>Motor</h4>
+                <div>Model: <span id="motor-model-display">-</span></div>
+                <div>Specifications:</div>
+                <ul id="motor-specs-list">
+                    <li>Power: <span id="motor-power-display">-</span></li>
+                    <li>Weight: <span id="motor-weight-display">-</span></li>
+                    <li>kV: <span id="motor-kv-display">-</span></li>
+                    <li>RPM: <span id="motor-rpm-display">-</span></li>
+                    <li>Thrust: <span id="motor-thrust-display">-</span></li>
+                </ul>
+                <hr>
+                <h4>Battery</h4>
+                <div>Model: <span id="battery-model-display">-</span></div>
+                <div>Specifications:</div>
+                <ul id="battery-specs-list">
+                    <li>Weight: <span id="battery-weight-display">-</span></li>
+                    <li>C-Rating: <span id="battery-c-rating-display">-</span></li>
+                    <li>Capacity: <span id="battery-capacity-spec-display">-</span></li>
+                    <li>Voltage: <span id="battery-voltage-spec-display">-</span></li>
+                    <li>Energy: <span id="battery-energy-display">-</span></li>
+                </ul>
+            </div>
+            <hr>
+            <h4>Cruise Performance</h4>
+            <div>RPM: <span id="pp-rpm-display">-</span></div>
+            <div><span id="power-label">Fuel Burn</span>: <span id="pp-lph-display">-</span></div>
+            <div>Thrust: <span id="cruise-thrust-display">-</span></div>
+            <div>Speed: <span id="pp-cruise-speed-display">-</span></div>
+            <div>Range: <span id="range-display">-</span></div>
+            <div>Endurance: <span id="fuel-hours-display">-</span></div>
+            <hr>
+            <h4>Flight Envelope</h4>
+            <canvas id="flight-envelope-graph" class="graph-canvas"></canvas>
+            <div><span id="energy-label">Fuel</span>: <span id="fuel-liters-display">-</span></div>
+        </div>
+    </div>
+
+    <div id="ui-container">
+        <h2>UAV Conceptual Designer</h2>
+        <div class="slider-group">
+            <label>Powerplant Type:</label>
+            <select id="powerplant-type">
+                <option value="fuel">Fuel Engine</option>
+                <option value="electric" selected>Electric Motor</option>
+            </select>
+        </div>
+        <div class="slider-group">
+            <label>Thrust-to-Weight Ratio: <span id="tw-label">0.21</span></label>
+            <input type="range" id="thrust-weight-ratio" min="0.1" max="0.4" value="0.21" step="0.01">
+        </div>
+        <div class="slider-group">
+            <label>Target Wing Loading: <span id="target-wl-label">15</span> kg/m²</label>
+            <input type="range" id="target-wing-loading" min="10" max="40" value="15" step="1">
+        </div>
+        <div class="slider-group">
+            <label><span id="fuel-fraction-label">Fuel % of MTOW</span>: <span id="fuel-frac-label">16</span>%</label>
+            <input type="range" id="fuel-fraction" min="5" max="25" value="16" step="1">
+        </div>
+        <hr>
+        <div class="slider-group">
+            <label>Payload Weight: <span id="pw-kg-label">2</span> kg</label>
+            <input type="range" id="payload-weight" min="0.5" max="100" value="2" step="0.5">
+        </div>
+        <hr>
+        <div class="slider-group">
+            <label>Wing Aspect Ratio: <span id="aspect-ratio-label">5.4</span></label>
+            <input type="range" id="aspect-ratio" min="3" max="10" value="5.4" step="0.1">
+        </div>
+        <div class="slider-group">
+            <label>Taper Ratio: <span id="taper-ratio-label">0.55</span></label>
+            <input type="range" id="taper-ratio" min="0.1" max="1.0" value="0.55" step="0.05">
+        </div>
+        <hr>
+        <div class="slider-group">
+            <label>Prop Pitch: <span id="prop-pitch-label">0.95</span></label>
+            <input type="range" id="prop-pitch-slider" min="0.5" max="1.2" value="0.95" step="0.05">
+        </div>
+        <hr>
+        <div class="slider-group">
+            <label>Payload (L/W/H): <span id="pl-dims-label">0.5 / 0.2 / 0.1</span> m</label>
+            <input type="range" id="payload-length" min="0.5" max="3" value="0.5" step="0.1" title="Payload Length">
+            <input type="range" id="payload-width" min="0.2" max="1.5" value="0.2" step="0.1" title="Payload Width">
+            <input type="range" id="payload-height" min="0.1" max="1" value="0.1" step="0.1" title="Payload Height">
+        </div>
+
+        <div id="data-display">
+            <div>MTOW: <span id="mtow-display">0 kg</span></div>
+            <div>Actual Wing Loading: <span id="current-wl-display">0 kg/m²</span></div>
+        </div>
+
+        <div id="weight-breakdown">
+            <div id="pie-chart-container">
+                <div id="pie-chart"></div>
+                <div id="legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SECTION 2: JAVASCRIPT LIBRARIES (Three.js)                              -->
+    <!-- ======================================================================= -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module" src="js/main_3d.js"></script>
+</body>
+</html>
