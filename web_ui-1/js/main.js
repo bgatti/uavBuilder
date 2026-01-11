@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function initThreeJS() {
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xa0a0a0);
-        scene.fog = new THREE.Fog(0xa0a0a0, 20, 100);
+        scene.background = new THREE.Color(0x000000);
+        scene.fog = new THREE.Fog(0x000000, 20, 100);
 
         camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 2, 8);
@@ -54,10 +54,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         d.position.set(5, 10, 7.5);
         scene.add(d);
 
-        const g = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
-        g.rotation.x = -Math.PI / 2;
-        scene.add(g);
-
         controls = new OrbitControls(camera, renderer.domElement);
         controls.target.set(0, 1, 0);
 
@@ -73,8 +69,52 @@ document.addEventListener('DOMContentLoaded', async function() {
         animate();
     }
 
+
+    function centerObjectInView() {
+        // Calculate bounding box of the copter group
+        const box = new THREE.Box3().setFromObject(copterGroup);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        // Update orbit controls target to center of object
+        controls.target.copy(center);
+        
+        // Calculate camera distance based on bounding box size
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = camera.fov * (Math.PI / 180); // Convert vertical FOV to radians
+        const cameraDistance = maxDim / 2 / Math.tan(fov / 2);
+        
+        // Position camera with some offset
+        const offset = size.length();
+        camera.position.set(
+            center.x + offset * 0.7,
+            center.y + maxDim * 0.5,
+            center.z + cameraDistance * 1.2
+        );
+        
+        controls.update();
+    }
+
+    let autoRotationTime = 0;
+    
     function animate() {
         requestAnimationFrame(animate);
+        
+        // Auto-rotate the camera around the copter for a clean orbit view
+        if (copterGroup.children.length > 0) {
+            autoRotationTime += 0.008;
+            
+            // Get the current distance from camera to controls target
+            const targetPos = controls.target;
+            const camDistance = camera.position.distanceTo(targetPos);
+            
+            // Orbit camera around the target on the Z axis
+            const radius = camDistance;
+            camera.position.x = targetPos.x + radius * Math.cos(autoRotationTime);
+            camera.position.z = targetPos.z + radius * Math.sin(autoRotationTime);
+            // Keep Y position stable
+        }
+        
         controls.update();
         renderer.render(scene, camera);
     }
@@ -195,6 +235,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         } catch (err) {
             console.error('Error rendering battery', { batteryWeight }, err);
         }
+        
+        // Auto-center the view on the rendered object
+        centerObjectInView();
     }
 
     function updateMultiCopterMetrics(hoverParameter) {
@@ -217,8 +260,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         let requiredCRating = 0;
         const batteryVoltage = 22.2; // Assume 6S
     setText('num-motors-display', numMotors);
-    setText('battery-weight-percent-display', `${batteryWeightPercent.toFixed(0)}%`);
-    setText('disk-loading-display', `${diskLoading.toFixed(0)} N/m²`);
+    setText('battery-weight-percent-display', `${batteryWeightPercent.toFixed(0)}`);
+    setText('disk-loading-display', `${diskLoading.toFixed(0)}`);
     setText('prop-pitch-display', propPitch.toFixed(2));
     setText('num-blades-display', numBlades);
     setText('payload-display', payloadG);

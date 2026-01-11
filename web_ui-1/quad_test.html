@@ -2,17 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Multi-Copter Designer</title>
+    <title>Vertex UAV Designer - AI-Powered Autonomous Systems</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- ======================================================================= -->
+    <!-- HEADER / BRANDING                                                       -->
+    <!-- ======================================================================= -->
+    <header class="vertex-header">
+        <div class="header-content">
+            <img src="https://vertexautonomy.com/assets/vertex-logo-C2rVBqjR.png" alt="Vertex Logo" class="vertex-logo-img">
+            <div class="header-text">
+                <h1 class="vertex-logo">VERTEX AUTONOMY</h1>
+                <p class="header-tagline">UAV DESIGN PLATFORM</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======================================================================= -->
     <!-- SECTION 1: HTML USER INTERFACE                                          -->
     <!-- ======================================================================= -->
     <div id="panels-container">
         <div id="aero-panel">
-            <h3>Aero Analysis</h3>
+            <h3 class="panel-title">AERODYNAMIC ANALYSIS</h3>
             <div>Disk Loading: <span>-</span></div>
             <div>Propeller Diameter: <span>-</span></div>
             <div>Tip Speed: <span>-</span></div>
@@ -20,13 +33,13 @@
             <canvas id="propeller-graph" class="graph-canvas"></canvas>
         </div>
         <div id="performance-panel">
-            <h3>Parameter Analysis</h3>
+            <h3 class="panel-title">PERFORMANCE ANALYSIS</h3>
             <div>Max Speed: <span id="max-speed-display">-</span></div>
             <div>Cruise Speed: <span id="cruise-speed-display">-</span></div>
             <canvas id="payload-range-graph" class="graph-canvas"></canvas>
         </div>
         <div id="powerplant-panel">
-            <h3>Powerplant Analysis</h3>
+            <h3 class="panel-title">PROPULSION SYSTEM ANALYSIS</h3>
             <div id="maxed-out-panel">
                 <h4>Maxed Out Parameters</h4>
                 <ul id="maxed-out-list"></ul>
@@ -63,7 +76,7 @@
     </div>
 
     <div id="ui-container">
-        <h2>UAV Conceptual Designer</h2>
+        <h2 class="design-title">AUTONOMOUS VEHICLE DESIGNER</h2>
         <div class="slider-group">
             <label>Number of Motors: <span id="num-motors-display">4</span></label>
             <input type="range" id="num-motors-slider" min="3" max="8" value="4" step="1">
