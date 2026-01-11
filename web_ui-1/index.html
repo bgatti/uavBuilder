@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=quad_test.html">
     <title>Vertex UAV Designer</title>
     <style>
         body {
@@ -26,6 +25,12 @@
             font-size: 1.1em;
             margin: 0 0 30px 0;
         }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
         a {
             display: inline-block;
             padding: 12px 30px;
@@ -39,14 +44,28 @@
         a:hover {
             transform: scale(1.05);
         }
+        .description {
+            font-size: 0.9em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>VERTEX AUTONOMY</h1>
         <p>UAV Design Platform</p>
-        <p>Redirecting to UAV Designer...</p>
-        <a href="quad_test.html">Click here if not redirected</a>
+        <p>Choose your design tool:</p>
+        <div class="nav-links">
+            <div>
+                <a href="quad_test.html">Multi-Copter Designer</a>
+                <p class="description">Design and analyze multi-rotor UAVs</p>
+            </div>
+            <div>
+                <a href="3d_test.html">Fixed-Wing Designer</a>
+                <p class="description">Design and analyze fixed-wing UAVs</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
