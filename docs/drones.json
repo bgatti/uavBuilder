@@ -1,0 +1,110 @@
+[
+    {
+        "Model":"iFlight Nazgul5 V3",
+        "MTOW_kg":0.62,
+        "Max_Payload_kg":0.0,
+        "Prop_Dia_in":5.1,
+        "Prop_Pitch_in":3.5,
+        "Est_Op_RPM":55000,
+        "Disc_Loading_kg_m2":11.8,
+        "Max_Speed_kmh":190,
+        "Max_Duration_min":7.0,
+        "Max_Range_km":5.0
+    },
+    {
+        "Model":"Skydio 2+",
+        "MTOW_kg":0.79,
+        "Max_Payload_kg":0.0,
+        "Prop_Dia_in":6.0,
+        "Prop_Pitch_in":3.5,
+        "Est_Op_RPM":15000,
+        "Disc_Loading_kg_m2":10.9,
+        "Max_Speed_kmh":58,
+        "Max_Duration_min":27.0,
+        "Max_Range_km":12.0
+    },
+    {
+        "Model":"Red Bull Drone 1",
+        "MTOW_kg":0.99,
+        "Max_Payload_kg":0.1,
+        "Prop_Dia_in":5.0,
+        "Prop_Pitch_in":4.0,
+        "Est_Op_RPM":80000,
+        "Disc_Loading_kg_m2":19.6,
+        "Max_Speed_kmh":350,
+        "Max_Duration_min":3.0,
+        "Max_Range_km":3.0
+    },
+    {
+        "Model":"DJI Mavic 3",
+        "MTOW_kg":1.05,
+        "Max_Payload_kg":0.1,
+        "Prop_Dia_in":9.4,
+        "Prop_Pitch_in":5.0,
+        "Est_Op_RPM":7500,
+        "Disc_Loading_kg_m2":5.9,
+        "Max_Speed_kmh":76,
+        "Max_Duration_min":46.0,
+        "Max_Range_km":30.0
+    },
+    {
+        "Model":"Peregrine 2 (WR)",
+        "MTOW_kg":1.2,
+        "Max_Payload_kg":0.0,
+        "Prop_Dia_in":7.0,
+        "Prop_Pitch_in":5.0,
+        "Est_Op_RPM":65000,
+        "Disc_Loading_kg_m2":12.1,
+        "Max_Speed_kmh":480,
+        "Max_Duration_min":0.5,
+        "Max_Range_km":0.5
+    },
+    {
+        "Model":"Autel EVO II Pro",
+        "MTOW_kg":2.0,
+        "Max_Payload_kg":0.9,
+        "Prop_Dia_in":9.0,
+        "Prop_Pitch_in":4.5,
+        "Est_Op_RPM":10000,
+        "Disc_Loading_kg_m2":12.1,
+        "Max_Speed_kmh":72,
+        "Max_Duration_min":40.0,
+        "Max_Range_km":25.0
+    },
+    {
+        "Model":"DJI Matrice 300 RTK",
+        "MTOW_kg":9.0,
+        "Max_Payload_kg":2.7,
+        "Prop_Dia_in":21.0,
+        "Prop_Pitch_in":8.7,
+        "Est_Op_RPM":4500,
+        "Disc_Loading_kg_m2":10.1,
+        "Max_Speed_kmh":83,
+        "Max_Duration_min":55.0,
+        "Max_Range_km":15.0
+    },
+    {
+        "Model":"Freefly Alta X",
+        "MTOW_kg":34.9,
+        "Max_Payload_kg":15.9,
+        "Prop_Dia_in":33.0,
+        "Prop_Pitch_in":12.0,
+        "Est_Op_RPM":3000,
+        "Disc_Loading_kg_m2":15.8,
+        "Max_Speed_kmh":97,
+        "Max_Duration_min":25.0,
+        "Max_Range_km":8.0
+    },
+    {
+        "Model":"DJI Agras T40",
+        "MTOW_kg":101.0,
+        "Max_Payload_kg":50.0,
+        "Prop_Dia_in":54.0,
+        "Prop_Pitch_in":0.0,
+        "Est_Op_RPM":2000,
+        "Disc_Loading_kg_m2":8.6,
+        "Max_Speed_kmh":25,
+        "Max_Duration_min":18.0,
+        "Max_Range_km":2.0
+    }
+]

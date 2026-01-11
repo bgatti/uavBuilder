@@ -1,0 +1,401 @@
+/* ============================================================================= */
+/* VERTEX AUTONOMY - PROFESSIONAL DEFENSE TECH THEME                            */
+/* ============================================================================= */
+
+:root {
+    --vertex-dark: #0a0a0a;
+    --vertex-bg: #1a1a1a;
+    --vertex-accent: #ffc107;
+    --vertex-text: #ffffff;
+    --vertex-text-dim: #cccccc;
+    --vertex-border: #333333;
+    --vertex-accent-light: #ffd700;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #000000;
+    color: var(--vertex-text);
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+}
+
+/* ============================================================================= */
+/* HEADER / BRANDING                                                            */
+/* ============================================================================= */
+
+.vertex-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #000000;
+    border-bottom: 2px solid var(--vertex-accent);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.vertex-logo-img {
+    height: 48px;
+    width: auto;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.vertex-logo {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--vertex-accent);
+}
+
+.header-tagline {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--vertex-text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* ============================================================================= */
+/* UI CONTAINER - CONTROL PANEL                                                */
+/* ============================================================================= */
+
+#ui-container {
+    position: fixed;
+    top: 90px;
+    left: 20px;
+    background: rgba(26, 26, 26, 0.95);
+    border: 2px solid var(--vertex-accent);
+    border-radius: 6px;
+    padding: 18px;
+    width: 380px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    z-index: 20;
+}
+
+#ui-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#ui-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#ui-container::-webkit-scrollbar-thumb {
+    background: var(--vertex-border);
+    border-radius: 4px;
+}
+
+#ui-container::-webkit-scrollbar-thumb:hover {
+    background: var(--vertex-accent);
+}
+
+.design-title {
+    margin: 0 0 18px 0;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--vertex-accent);
+    border-bottom: 2px solid var(--vertex-accent);
+    padding-bottom: 10px;
+}
+
+/* ============================================================================= */
+/* SLIDER CONTROLS                                                              */
+/* ============================================================================= */
+
+.slider-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.slider-group label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--vertex-text);
+    text-transform: uppercase;
+}
+
+.slider-group input[type="range"] {
+    width: 100%;
+    height: 5px;
+    border-radius: 2px;
+    background: var(--vertex-text);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--vertex-text);
+    cursor: pointer;
+    border: 2px solid var(--vertex-dark);
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--vertex-text);
+    cursor: pointer;
+    border: 2px solid var(--vertex-dark);
+}
+
+/* ============================================================================= */
+/* BUTTONS                                                                      */
+/* ============================================================================= */
+
+.optimize-btn {
+    margin-left: 10px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--vertex-border);
+    background: transparent;
+    border-radius: 4px;
+    color: var(--vertex-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+}
+
+.optimize-btn:hover {
+    background: rgba(74, 158, 255, 0.1);
+    border-color: var(--vertex-accent);
+}
+
+/* ============================================================================= */
+/* TYPOGRAPHY                                                                   */
+/* ============================================================================= */
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--vertex-text);
+}
+
+h2 {
+    margin-top: 0;
+    color: var(--vertex-text);
+    border-bottom: 1px solid var(--vertex-border);
+    padding-bottom: 10px;
+}
+
+h3 {
+    color: var(--vertex-text);
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+h4 {
+    color: var(--vertex-text);
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--vertex-border);
+    margin: 12px 0;
+}
+
+/* ============================================================================= */
+/* PANELS - ANALYSIS DISPLAYS                                                   */
+/* ============================================================================= */
+
+#panels-container {
+    display: flex;
+    gap: 12px;
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 20;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    overflow-x: auto;
+    max-width: calc(100vw - 440px);
+}
+
+#aero-panel,
+#performance-panel,
+#powerplant-panel {
+    background: rgba(26, 26, 26, 0.3);
+    border: 1px solid var(--vertex-border);
+    padding: 14px;
+    border-radius: 6px;
+    width: 340px;
+    min-width: 340px;
+    display: block;
+}
+
+.panel-title {
+    margin: 0 0 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--vertex-accent);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--vertex-accent-light);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+#aero-panel div,
+#performance-panel div,
+#powerplant-panel div {
+    font-size: 12px;
+    margin-bottom: 6px;
+    color: var(--vertex-text-dim);
+    font-weight: 500;
+}
+
+#aero-panel span,
+#performance-panel span,
+#powerplant-panel span {
+    font-weight: 700;
+    color: var(--vertex-accent-light);
+    letter-spacing: 0.5px;
+}
+
+#data-display,
+#weight-breakdown {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid var(--vertex-border);
+}
+
+#performance-section {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 2px solid var(--vertex-accent);
+}
+
+.performance-section-title {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--vertex-accent);
+}
+
+#data-display div {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--vertex-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+#data-display span {
+    font-weight: 700;
+    color: var(--vertex-text);
+    float: right;
+    font-size: 11px;
+}
+
+/* ============================================================================= */
+/* GRAPHS & CHARTS                                                              */
+/* ============================================================================= */
+
+#drag-graph,
+#thrust-graph,
+#flight-envelope-graph,
+.graph-canvas {
+    width: 100%;
+    height: 140px;
+    background: rgba(74, 158, 255, 0.05);
+    border-radius: 4px;
+    border: 1px solid var(--vertex-border);
+    margin-top: 8px;
+}
+
+#flight-envelope-graph,
+#drag-graph {
+    --max-speed-color: #ff6b6b;
+    --low-speed-color: #4ecdc4;
+    --induced-drag-color: #4a9eff;
+    --parasitic-drag-color: #dc3545;
+    --total-drag-color: #20c997;
+    --graph-line-width: 2;
+}
+
+/* ============================================================================= */
+/* PIE CHART & LEGEND                                                           */
+/* ============================================================================= */
+
+#pie-chart-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+#pie-chart {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid var(--vertex-border);
+}
+
+#legend {
+    font-size: 10px;
+    flex: 1;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: var(--vertex-text-dim);
+}
+
+.legend-color {
+    width: 11px;
+    height: 11px;
+    border: 1px solid var(--vertex-border);
+    margin-right: 8px;
+    border-radius: 2px;
+}
