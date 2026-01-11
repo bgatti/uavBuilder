@@ -3,7 +3,7 @@ import { WEIGHT_COLORS, generateNaca4Airfoil } from './utils.js';
 
 let leftWingMesh, rightWingMesh, payloadMesh, motorMesh, propMesh, cmMesh, linesMesh, cpMesh, wingbodyMesh, leftFuelMesh, rightFuelMesh;
 
-export function updatePieChart(weights) {
+export function updatePieChart(weights, powerplantType) {
     const pieChart = document.getElementById('pie-chart');
     const legend = document.getElementById('legend');
     let gradientString = 'conic-gradient(';
@@ -18,7 +18,13 @@ export function updatePieChart(weights) {
         gradientString += `${color} ${currentAngle.toFixed(2)}deg ${(currentAngle + percentage * 3.6).toFixed(2)}deg, `;
         currentAngle += percentage * 3.6;
 
-        legend.innerHTML += `<div class="legend-item"><div class="legend-color" style="background-color:${color};"></div>${name.charAt(0).toUpperCase() + name.slice(1)}: ${weight.toFixed(0)} kg (${percentage.toFixed(1)}%)</div>`;
+        // Display name: show "Battery" instead of "Fuel" for electric
+        let displayName = name.charAt(0).toUpperCase() + name.slice(1);
+        if (name === 'fuel' && powerplantType === 'electric') {
+            displayName = 'Battery';
+        }
+
+        legend.innerHTML += `<div class="legend-item"><div class="legend-color" style="background-color:${color};"></div>${displayName}: ${weight.toFixed(1)} kg (${percentage.toFixed(1)}%)</div>`;
     }
     pieChart.style.background = gradientString.slice(0, -2) + ')';
 }
@@ -98,12 +104,27 @@ export function update3DScene(scene, params, weights) {
     leftFuelMesh = new THREE.Mesh(createFuelTankGeometry(false), fuelMat);
     rightFuelMesh = new THREE.Mesh(createFuelTankGeometry(true), fuelMat);
     scene.add(leftFuelMesh, rightFuelMesh);
-    const motorGeom=new THREE.BoxGeometry(params.engineSize_m*1.5,params.engineSize_m*1.5,params.engineSize_m*1.5);
-    const motorMat=new THREE.MeshStandardMaterial({color:WEIGHT_COLORS.powerplant,metalness:0.8,roughness:0.4});
-    motorMesh=new THREE.Mesh(motorGeom,motorMat);motorMesh.position.x=params.payloadLength+params.engineSize_m*1.5/2;scene.add(motorMesh);
-    const propGeom=new THREE.CylinderGeometry(params.propellerDiameter_m/2,params.propellerDiameter_m/2,0.02,32);
-    const propMat=new THREE.MeshBasicMaterial({color:0x222222,transparent:true,opacity:0.4});
-    propMesh=new THREE.Mesh(propGeom,propMat);propMesh.position.x=params.payloadLength+params.engineSize_m*1.5+0.02;propMesh.rotation.z=Math.PI/2;scene.add(propMesh);
+    
+    // ENGINE/MOTOR (Black Cube) - scales based on weight using density
+    // Lower density accounts for motor windings, air gaps, and mounting hardware
+    const MOTOR_DENSITY = 1200; // kg/m³ (reduced for more visible motor size)
+    const motorVolume = weights.powerplant / MOTOR_DENSITY;
+    const motorCubeSide = Math.cbrt(motorVolume);
+    
+    const motorGeom = new THREE.BoxGeometry(motorCubeSide, motorCubeSide, motorCubeSide);
+    const motorMat = new THREE.MeshStandardMaterial({color: WEIGHT_COLORS.powerplant, metalness: 0.8, roughness: 0.4});
+    motorMesh = new THREE.Mesh(motorGeom, motorMat);
+    motorMesh.position.x = params.payloadLength + motorCubeSide / 2;
+    scene.add(motorMesh);
+    
+    // PROPELLER (Cylinder/Disk) - scales based on thrust calculations (propellerDiameter_m)
+    const propGeom = new THREE.CylinderGeometry(params.propellerDiameter_m / 2, params.propellerDiameter_m / 2, 0.02, 32);
+    const propMat = new THREE.MeshBasicMaterial({color: 0x222222, transparent: true, opacity: 0.4});
+    const propX = params.payloadLength + motorCubeSide + 0.02;
+    propMesh = new THREE.Mesh(propGeom, propMat);
+    propMesh.position.x = propX;
+    propMesh.rotation.z = Math.PI / 2;
+    scene.add(propMesh);
 
     // --- Center of Mass Visualization ---
 

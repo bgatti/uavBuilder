@@ -1,5 +1,13 @@
 // --- Functions from user's Python script, translated to JS ---
 
+// Helper function to format kg values with decimals for values < 100
+function formatKg(value) {
+    if (value < 100) {
+        return value.toFixed(1);
+    }
+    return value.toFixed(0);
+}
+
 function degrade_power_for_altitude(hp_sea_level, altitude_ft) {
     /** Degrades engine horsepower based on altitude. Rule of thumb: ~3% loss per 1000 ft. */
     const power_loss_factor = 0.03;
@@ -112,6 +120,9 @@ function performPowerplantAnalysis(geometrics, weights, dragProfileData) {
     const { propellerDiameter_m, enginePower_kw } = geometrics;
     const { speeds_kts, total_drags, thrust_available, operating_rpms, best_glide_speed_kts } = dragProfileData;
     const KTS_TO_MS = 0.514444;
+    
+    // Get powerplant type
+    const powerplantType = document.getElementById('powerplant-type')?.value || 'fuel';
 
     // Find the high-speed cruise intersection point
     let cruise_idx = -1;
@@ -124,6 +135,12 @@ function performPowerplantAnalysis(geometrics, weights, dragProfileData) {
     }
 
     let cruiseSpeed_kts = 0, cruiseThrust_n = 0, cruiseRpm = 0, power_at_cruise_kw = 0;
+    let cruiseFailureReason = '';
+    
+    // Define cruise as 75% of max motor power
+    const cruise_power_limit_kw = enginePower_kw * 0.75;
+    const cruise_power_limit_W = cruise_power_limit_kw * 1000;
+    
     if (cruise_idx > 0) {
         // Simple interpolation for more accuracy
         const t1 = thrust_available[cruise_idx-1], d1 = total_drags[cruise_idx-1];
@@ -136,44 +153,125 @@ function performPowerplantAnalysis(geometrics, weights, dragProfileData) {
         cruiseThrust_n = d1 + fraction * (d2 - d1);
         cruiseRpm = r1 + fraction * (r2 - r1);
         
-        const cruise_torque = model_prop_load_torque(cruiseRpm, cruiseSpeed_kts * KTS_TO_MS, propellerDiameter_m, parseFloat(document.getElementById('prop-pitch-slider').value), 1.225);
-        power_at_cruise_kw = (cruise_torque * (cruiseRpm * 2 * Math.PI / 60)) / 1000;
+        // CORRECT: Power = Thrust × Speed (physics fundamental)
+        // At cruise, thrust = drag, and power is the work done moving against drag
+        const cruiseSpeed_ms = cruiseSpeed_kts * KTS_TO_MS;
+        const propeller_efficiency = 0.75; // Typical for cruise conditions
+        const motor_efficiency = 0.85; // Brushless motor efficiency
+        const esc_efficiency = 0.95; // ESC efficiency
+        const total_efficiency = propeller_efficiency * motor_efficiency * esc_efficiency;
+        
+        // Aerodynamic power (thrust × speed)
+        const aero_power_W = cruiseThrust_n * cruiseSpeed_ms;
+        
+        // Account for efficiencies to get electrical power input
+        const electrical_power_W = aero_power_W / total_efficiency;
+        
+        // ENFORCE: Cruise power cannot exceed 75% of max motor power
+        if (electrical_power_W > cruise_power_limit_W) {
+            // Motor cannot sustain this cruise point - need to find lower speed
+            // Find the speed where power requirement = 75% max power
+            // Power = Drag × Speed, so we need to iterate to find the right speed
+            
+            let found_cruise = false;
+            for (let i = 0; i < speeds_kts.length - 1; i++) {
+                if (speeds_kts[i] < best_glide_speed_kts) continue;
+                
+                const v_ms = speeds_kts[i] * KTS_TO_MS;
+                const drag_at_v = total_drags[i];
+                const power_needed = drag_at_v * v_ms / total_efficiency;
+                
+                if (power_needed <= cruise_power_limit_W && thrust_available[i] >= drag_at_v) {
+                    cruiseSpeed_kts = speeds_kts[i];
+                    cruiseThrust_n = drag_at_v;
+                    cruiseRpm = operating_rpms[i];
+                    power_at_cruise_kw = power_needed / 1000;
+                    found_cruise = true;
+                    break;
+                }
+            }
+            
+            if (!found_cruise) {
+                cruiseFailureReason = 'Cannot achieve sustainable cruise within 75% power limit';
+                cruiseSpeed_kts = 0;
+                cruiseThrust_n = 0;
+                cruiseRpm = 0;
+                power_at_cruise_kw = 0;
+            }
+        } else {
+            power_at_cruise_kw = electrical_power_W / 1000;
+        }
+    } else {
+        // Determine why cruise cannot be calculated
+        const max_thrust = Math.max(...thrust_available);
+        const min_drag = Math.min(...total_drags);
+        
+        if (max_thrust < min_drag) {
+            cruiseFailureReason = 'Insufficient thrust for level flight';
+        } else {
+            cruiseFailureReason = 'Thrust curve does not intersect drag curve';
+        }
     }
 
     // --- Update UI Displays ---
     const enginePowerHp = enginePower_kw * 1.34102;
-    document.getElementById('pp-weight-display').textContent = engineWeight_kg.toFixed(1);
+    document.getElementById('pp-weight-display').textContent = formatKg(engineWeight_kg) + ' kg';
     document.getElementById('pp-hp-display').textContent = enginePowerHp.toFixed(0);
     
-    document.getElementById('pp-cruise-speed-display').textContent = cruiseSpeed_kts > 0 ? `${(cruiseSpeed_kts * 1.852).toFixed(0)} kmh (${cruiseSpeed_kts.toFixed(0)} kts)` : 'N/A';
-    document.getElementById('cruise-thrust-display').textContent = cruiseThrust_n > 0 ? `${(cruiseThrust_n / 9.81).toFixed(1)} kg (${cruiseThrust_n.toFixed(0)} N)` : 'N/A';
-    document.getElementById('pp-rpm-display').textContent = cruiseRpm > 0 ? cruiseRpm.toFixed(0) : 'N/A';
-
-    // Fuel calculations
-    const sfc = 0.5; // kg/kW-hr
-    const fuelDensity = 0.8; // kg/L
-    const fuelFlowKgHr = power_at_cruise_kw * sfc;
-    const fuelFlowLph = fuelFlowKgHr / fuelDensity;
-    document.getElementById('pp-lph-display').textContent = fuelFlowLph > 0 ? fuelFlowLph.toFixed(1) : 'N/A';
-    
-    const fuelLiters = fuelWeight / fuelDensity;
-    const enduranceHours = fuelLiters / fuelFlowLph;
-    document.getElementById('fuel-liters-display').textContent = fuelLiters.toFixed(0);
-    document.getElementById('fuel-hours-display').textContent = enduranceHours > 0 && isFinite(enduranceHours) ? enduranceHours.toFixed(1) : 'N/A';
+    if (powerplantType === 'electric') {
+        // Electric Motor - Calculate endurance and range based on battery
+        document.getElementById('pp-cruise-speed-display').textContent = cruiseSpeed_kts > 0 ? `${(cruiseSpeed_kts * 1.852).toFixed(0)} kmh (${cruiseSpeed_kts.toFixed(0)} kts)` : (cruiseFailureReason || 'N/A');
+        document.getElementById('cruise-thrust-display').textContent = cruiseThrust_n > 0 ? `${formatKg(cruiseThrust_n / 9.81)} kg (${cruiseThrust_n.toFixed(0)} N)` : (cruiseFailureReason || 'N/A');
+        document.getElementById('pp-rpm-display').textContent = cruiseRpm > 0 ? cruiseRpm.toFixed(0) : (cruiseFailureReason || 'N/A');
+        
+        // Battery-specific calculations
+        const batteryEnergy_wh = fuelWeight * 200; // Approximate Wh based on battery weight (200 Wh/kg for LiPo)
+        const usableEnergy_wh = batteryEnergy_wh * 0.75; // 75% usable capacity
+        
+        if (power_at_cruise_kw > 0 && cruiseSpeed_kts > 0) {
+            const enduranceHours = usableEnergy_wh / (power_at_cruise_kw * 1000);
+            const range_km = (cruiseSpeed_kts * KTS_TO_MS) * enduranceHours * 3.6;
+            
+            document.getElementById('pp-lph-display').textContent = `${(power_at_cruise_kw * 1000).toFixed(0)} W`;
+            document.getElementById('fuel-liters-display').textContent = `${batteryEnergy_wh.toFixed(0)} Wh`;
+            document.getElementById('fuel-hours-display').textContent = enduranceHours > 0 && isFinite(enduranceHours) ? `${(enduranceHours * 60).toFixed(1)} min` : (cruiseFailureReason || 'N/A');
+            document.getElementById('range-display').textContent = range_km > 0 && isFinite(range_km) ? `${range_km.toFixed(0)} km (${(range_km / 1.852).toFixed(0)} nm)` : (cruiseFailureReason || 'N/A');
+        } else {
+            document.getElementById('pp-lph-display').textContent = cruiseFailureReason || 'N/A';
+            document.getElementById('fuel-liters-display').textContent = `${batteryEnergy_wh.toFixed(0)} Wh`;
+            document.getElementById('fuel-hours-display').textContent = cruiseFailureReason || 'N/A';
+            document.getElementById('range-display').textContent = cruiseFailureReason || 'N/A';
+        }
+    } else {
+        // Fuel Engine - Original calculations
+        document.getElementById('pp-cruise-speed-display').textContent = cruiseSpeed_kts > 0 ? `${(cruiseSpeed_kts * 1.852).toFixed(0)} kmh (${cruiseSpeed_kts.toFixed(0)} kts)` : (cruiseFailureReason || 'N/A');
+        document.getElementById('cruise-thrust-display').textContent = cruiseThrust_n > 0 ? `${formatKg(cruiseThrust_n / 9.81)} kg (${cruiseThrust_n.toFixed(0)} N)` : (cruiseFailureReason || 'N/A');
+        document.getElementById('pp-rpm-display').textContent = cruiseRpm > 0 ? cruiseRpm.toFixed(0) : (cruiseFailureReason || 'N/A');
+        
+        const sfc = 0.5; // kg/kW-hr
+        const fuelDensity = 0.8; // kg/L
+        const fuelFlowKgHr = power_at_cruise_kw * sfc;
+        const fuelFlowLph = fuelFlowKgHr / fuelDensity;
+        document.getElementById('pp-lph-display').textContent = fuelFlowLph > 0 ? `${fuelFlowLph.toFixed(1)} L/hr` : (cruiseFailureReason || 'N/A');
+        
+        const fuelLiters = fuelWeight / fuelDensity;
+        const enduranceHours = fuelLiters / fuelFlowLph;
+        document.getElementById('fuel-liters-display').textContent = `${fuelLiters.toFixed(0)} L`;
+        document.getElementById('fuel-hours-display').textContent = enduranceHours > 0 && isFinite(enduranceHours) ? `${enduranceHours.toFixed(1)} hrs` : (cruiseFailureReason || 'N/A');
+        
+        const range_km = (cruiseSpeed_kts * KTS_TO_MS) * enduranceHours * 3.6;
+        document.getElementById('range-display').textContent = range_km > 0 && isFinite(range_km) ? `${range_km.toFixed(0)} km (${(range_km / 1.852).toFixed(0)} nm)` : (cruiseFailureReason || 'N/A');
+    }
 
     // Propeller display
     const design_j = parseFloat(document.getElementById('prop-pitch-slider').value);
     const display_pitch_in = (propellerDiameter_m / 0.0254) * design_j;
     document.getElementById('pp-prop-display').textContent = `${(propellerDiameter_m * 39.37).toFixed(1)} x ${display_pitch_in.toFixed(1)}`;
-
-    // Range calculation
-    const range_km = (cruiseSpeed_kts * KTS_TO_MS) * enduranceHours * 3.6;
-    document.getElementById('range-display').textContent = range_km > 0 && isFinite(range_km) ? `${range_km.toFixed(0)} km (${(range_km / 1.852).toFixed(0)} nm)` : 'N/A';
 }
 
 // Main function to draw the flight envelope
 function drawFlightEnvelope(geometrics, weights) {
-    const { propellerDiameter_m, enginePower_kw } = geometrics;
+    const { propellerDiameter_m, enginePower_kw, motorMaxRpm } = geometrics;
     const { mtow } = weights;
 
     const canvas = document.getElementById('flight-envelope-graph');
@@ -204,14 +302,29 @@ function drawFlightEnvelope(geometrics, weights) {
     // Analysis setup
     const alt_range_ft = Array.from({ length: 50 }, (_, i) => i * (40000 / 49));
     const tas_range_mps = Array.from({ length: 100 }, (_, i) => 10 + i * (140 / 99));
-    const rpm_search_space = Array.from({ length: 200 }, (_, i) => 1000 + i * (5000 / 199));
+    
+    // Determine RPM range based on powerplant type
+    const powerplantType = document.getElementById('powerplant-type')?.value || 'fuel';
+    let rpm_search_space, peak_power_rpm;
+    
+    if (powerplantType === 'electric' && motorMaxRpm) {
+        // Electric motor: use motor-specific RPM range
+        const min_rpm = motorMaxRpm * 0.2;
+        const max_rpm = motorMaxRpm;
+        peak_power_rpm = motorMaxRpm * 0.8;
+        rpm_search_space = Array.from({ length: 200 }, (_, i) => min_rpm + i * ((max_rpm - min_rpm) / 199));
+    } else {
+        // Fuel engine: traditional RPM range
+        rpm_search_space = Array.from({ length: 200 }, (_, i) => 1000 + i * (5000 / 199));
+        peak_power_rpm = 5000;
+    }
 
     let v_max_tas = [], v_min_tas = [], v_stall_tas = [];
 
     alt_range_ft.forEach(alt_ft => {
         const rho_alt = getIsaConditions(alt_ft);
         const power_derated_w = MAX_POWER_W * (rho_alt / RHO_SL);
-        const engine_torque_curve = rpm_search_space.map(rpm => model_engine_torque(rpm, power_derated_w, 5000));
+        const engine_torque_curve = rpm_search_space.map(rpm => model_engine_torque(rpm, power_derated_w, peak_power_rpm));
 
         let thrust_available = tas_range_mps.map(tas_mps => {
             if (tas_mps === 0) return 0;
@@ -394,10 +507,27 @@ function drawDragProfile(geometrics, weights) {
     });
 
     // Use original RPM-based thrust for other calculations to maintain UI consistency
-    const { enginePower_kw, propellerDiameter_m } = geometrics;
+    const { enginePower_kw, propellerDiameter_m, motorMaxRpm, motorKv } = geometrics;
     const MAX_POWER_W = enginePower_kw * 1000;
-    const rpm_search_space = Array.from({length: 500}, (_, i) => 1000 + i * (5000 / 499));
-    const engine_torque_curve = rpm_search_space.map(rpm => model_engine_torque(rpm, MAX_POWER_W, 5000));
+    
+    // Determine RPM range based on powerplant type
+    const powerplantType = document.getElementById('powerplant-type')?.value || 'fuel';
+    let rpm_search_space, peak_power_rpm;
+    
+    if (powerplantType === 'electric' && motorMaxRpm) {
+        // Electric motor: use motor-specific RPM range
+        // Search from 20% to 100% of max RPM
+        const min_rpm = motorMaxRpm * 0.2;
+        const max_rpm = motorMaxRpm;
+        peak_power_rpm = motorMaxRpm * 0.8; // Electric motors have flat power curves
+        rpm_search_space = Array.from({length: 500}, (_, i) => min_rpm + i * ((max_rpm - min_rpm) / 499));
+    } else {
+        // Fuel engine: traditional 1000-6000 RPM range
+        rpm_search_space = Array.from({length: 500}, (_, i) => 1000 + i * (5000 / 499));
+        peak_power_rpm = 5000;
+    }
+    
+    const engine_torque_curve = rpm_search_space.map(rpm => model_engine_torque(rpm, MAX_POWER_W, peak_power_rpm));
     let original_thrust_available = [];
     let operating_rpms = [];
     speeds_kts.forEach(v_kts => {

@@ -3,13 +3,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { calculateMetrics } from './physics.js';
 import { update3DScene, updatePieChart, updateSliderColors } from './ui.js';
 import { performFlightEnvelopeAnalysis } from './analysis.js';
+import { getMotorByThrust } from './motor.js';
+import { calculateBatteryMetricsFromWeight } from './battery.js';
 
 let scene, camera, renderer, controls;
 
 function mainUpdateLoop() {
     const { geometrics, weights } = calculateMetrics();
+    const powerplantType = document.getElementById('powerplant-type')?.value || 'fuel';
     update3DScene(scene, geometrics, weights);
-    updatePieChart(weights);
+    updatePieChart(weights, powerplantType);
     performFlightEnvelopeAnalysis(geometrics, weights);
 
     const targetWl = parseFloat(document.getElementById('target-wing-loading').value);
@@ -39,6 +42,17 @@ function init() {
         s.addEventListener('input', mainUpdateLoop);
     });
 
+    // Add powerplant type selector listener
+    const powerplantTypeSelect = document.getElementById('powerplant-type');
+    if (powerplantTypeSelect) {
+        powerplantTypeSelect.addEventListener('change', function() {
+            togglePowerplantDisplay(this.value);
+            mainUpdateLoop();
+        });
+        // Initialize display
+        togglePowerplantDisplay(powerplantTypeSelect.value);
+    }
+
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -47,6 +61,28 @@ function init() {
 
     mainUpdateLoop();
     (function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); })();
+}
+
+function togglePowerplantDisplay(powerplantType) {
+    const fuelSection = document.getElementById('fuel-engine-section');
+    const electricSection = document.getElementById('electric-motor-section');
+    const fuelFractionLabel = document.getElementById('fuel-fraction-label');
+    const powerLabel = document.getElementById('power-label');
+    const energyLabel = document.getElementById('energy-label');
+    
+    if (powerplantType === 'electric') {
+        if (fuelSection) fuelSection.style.display = 'none';
+        if (electricSection) electricSection.style.display = 'block';
+        if (fuelFractionLabel) fuelFractionLabel.textContent = 'Battery % of MTOW';
+        if (powerLabel) powerLabel.textContent = 'Power Draw';
+        if (energyLabel) energyLabel.textContent = 'Battery Energy';
+    } else {
+        if (fuelSection) fuelSection.style.display = 'block';
+        if (electricSection) electricSection.style.display = 'none';
+        if (fuelFractionLabel) fuelFractionLabel.textContent = 'Fuel % of MTOW';
+        if (powerLabel) powerLabel.textContent = 'Fuel Burn';
+        if (energyLabel) energyLabel.textContent = 'Fuel';
+    }
 }
 
 init();

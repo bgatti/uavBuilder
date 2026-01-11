@@ -1,18 +1,22 @@
 import * as THREE from 'three';
 import { calculateEngineMetrics } from './engine.js';
+import { getMotorByThrust } from './motor.js';
+import { calculateBatteryMetricsFromWeight } from './battery.js';
 
 export function generateAirframe(
     payloadWeight, payloadLength, payloadWidth, payloadHeight,
     targetWingLoading, thrustToWeightRatio, fuelFraction,
     aspectRatio, taperRatio
 ) {
+    const powerplantType = document.getElementById('powerplant-type')?.value || 'fuel';
     let rootChord, tipChord, semiSpan;
     let sweep = 20;
 
-    // A more sophisticated initial guess for MTOW, accounting for engine weight estimate.
-    const estimatedEngineWeightFraction = 0.36 * thrustToWeightRatio;
+    // A more sophisticated initial guess for MTOW, accounting for engine/motor weight estimate.
+    const estimatedPowerplantWeightFraction = 0.36 * thrustToWeightRatio;
     const airframeFractionGuess = 0.25; // Guess airframe is 25% of MTOW
-    const denominator = 1 - fuelFraction - estimatedEngineWeightFraction - airframeFractionGuess;
+    const energyFraction = powerplantType === 'electric' ? fuelFraction : fuelFraction; // Battery or fuel fraction
+    const denominator = 1 - energyFraction - estimatedPowerplantWeightFraction - airframeFractionGuess;
     let mtow_kg = (payloadWeight + 1.5) / (denominator > 0.1 ? denominator : 0.1); // Avoid division by zero/small numbers
     
     // --- Pre-calculate fixed wing geometry based on initial MTOW estimate ---
@@ -28,19 +32,46 @@ export function generateAirframe(
 
     let enginePower_kw = 0, engineWeight_kg = 0, engineSize_m = 0, propellerDiameter_m = 0, cruiseSpeed_knots = 0, propellerPitch_in = 0;
     let fuelWeight = 0, airframeWeight = 0, fuselageWeight = 0, wingWeight = 0;
+    let motorData = null, batteryData = null;
 
     for (let i = 0; i < 5; i++) {
-        // ENGINE MODEL
-        ({ enginePower_kw, engineWeight_kg, engineSize_m, propellerDiameter_m, cruiseSpeed_knots, propellerPitch_in } = calculateEngineMetrics(mtow_kg, thrustToWeightRatio));
+        // POWERPLANT MODEL (Fuel Engine or Electric Motor)
+        if (powerplantType === 'electric') {
+            // Electric motor calculation
+            const requiredThrust_N = mtow_kg * 9.81 * thrustToWeightRatio;
+            // Fixed-wing disk loading is much lower than multicopters
+            // Typical values: 50-150 N/m² for efficient fixed-wing
+            // Lower = larger prop = more efficient but slower
+            const diskLoading = 100; // N/m^2, optimized for fixed-wing efficiency
+            
+            // Calculate propeller diameter FIRST (critical for motor selection)
+            propellerDiameter_m = Math.sqrt((4 * requiredThrust_N) / (Math.PI * diskLoading));
+            
+            // Now select motor with correct propeller diameter
+            motorData = getMotorByThrust(requiredThrust_N, diskLoading, propellerDiameter_m, 22.2);
+            engineWeight_kg = motorData.weight_kg;
+            enginePower_kw = motorData.power_W / 1000;
+            engineSize_m = motorData.diameter_m;
+            cruiseSpeed_knots = 50; // Estimate, similar to fuel
+            propellerPitch_in = 0.7 * (propellerDiameter_m / 0.0254);
+            
+            // Calculate battery weight from fuel fraction (now battery fraction)
+            const batteryWeightTarget = mtow_kg * fuelFraction;
+            batteryData = calculateBatteryMetricsFromWeight(batteryWeightTarget, 22.2, 50);
+            
+        } else {
+            // Fuel engine calculation (existing)
+            ({ enginePower_kw, engineWeight_kg, engineSize_m, propellerDiameter_m, cruiseSpeed_knots, propellerPitch_in } = calculateEngineMetrics(mtow_kg, thrustToWeightRatio));
+        }
 
         // =======================================================================
         // REVISED AND FULLY CORRECTED AIRFRAME WEIGHT CALCULATION
         // =======================================================================
 
         // --- PHYSICAL CONSTANTS (Calibrated for better realism) ---
-        const WING_SKIN_DENSITY = 4.5;      // kg/m^2
-        const WING_BENDING_FACTOR = 0.00735;   // Unitless (Trimmed by 30% twice, then halved)
-        const FUSELAGE_SKIN_DENSITY = 8.0;  // kg/m^2
+        const WING_SKIN_DENSITY = 3.4;      // kg/m^2 (reduced by 25% from 4.5)
+        const WING_BENDING_FACTOR = 0.0055;   // Unitless (reduced by 25% from 0.00735)
+        const FUSELAGE_SKIN_DENSITY = 6.0;  // kg/m^2 (reduced by 25% from 8.0)
         const FUSELAGE_SHAPE_PENALTY_FACTOR = 1.5;
 
         // --- Calculation Steps ---
@@ -124,9 +155,21 @@ export function generateAirframe(
     const totalVolume = fuselageVolume + wingVolume;
 
     return {
-        geometrics: { semiSpan, rootChord, tipChord, payloadLength, payloadWidth, payloadHeight, engineSize_m, propellerDiameter_m, cruiseSpeed_knots, propellerPitch_in, centerOfMass, centerOfPressure, wingOffset, sweep, enginePower_kw },
+        geometrics: { 
+            semiSpan, rootChord, tipChord, payloadLength, payloadWidth, payloadHeight, 
+            engineSize_m, propellerDiameter_m, cruiseSpeed_knots, propellerPitch_in, 
+            centerOfMass, centerOfPressure, wingOffset, sweep, enginePower_kw,
+            motorDiameter_m: motorData ? motorData.diameter_m : null,
+            motorHeight_m: motorData ? motorData.height_m : null,
+            motorMaxRpm: motorData ? motorData.max_rpm : null,
+            motorKv: motorData ? motorData.kv : null,
+            motorThrust_N: motorData ? motorData.thrust_N : null
+        },
         weights: { mtow: mtow_kg, payload: payloadWeight, fuel: fuelWeight, powerplant: engineWeight_kg, airframe: airframeWeight },
         volume: totalVolume,
-        shape: { rootChord, tipChord, semiSpan, sweep }
+        shape: { rootChord, tipChord, semiSpan, sweep },
+        motorData: motorData,
+        batteryData: batteryData,
+        powerplantType: powerplantType
     };
 }
